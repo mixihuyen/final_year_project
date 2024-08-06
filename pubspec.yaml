@@ -59,9 +59,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/logos/
+    - assets/icons/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -90,6 +91,19 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
   fonts:
-     - family: Pacifico Regular
+     - family: Kanit
        fonts:
-         - asset: assets/fonts/Pacifico-Regular.ttf
+         - asset: assets/fonts/Kanit-Light.ttf
+           weight: 300
+         - asset: assets/fonts/Kanit-Regular.ttf
+           weight: 400
+         - asset: assets/fonts/Kanit-Italic.ttf
+           weight: italic
+         - asset: assets/fonts/Kanit-Medium.ttf
+           weight: 500
+         - asset: assets/fonts/Kanit-MediumItalic.ttf
+           weight: 500
+         - asset: assets/fonts/Kanit-SemiBold.ttf
+           weight: 600
+         - asset: assets/fonts/Kanit-Bold.ttf
+           weight: 800
