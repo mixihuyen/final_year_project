@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../constants/sizes.dart';
 
-
-
 /* -- Light & Dark Outlined Button Themes -- */
 class TOutlinedButtonTheme {
   TOutlinedButtonTheme._(); //To avoid creating instances

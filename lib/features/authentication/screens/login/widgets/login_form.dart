@@ -1,12 +1,15 @@
 import 'package:final_year_project/features/authentication/screens/password_configuration/forget_password.dart';
 import 'package:final_year_project/features/authentication/screens/signup/signup.dart';
+import 'package:final_year_project/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../../../navigation_menu.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
 
 class TLoginForm extends StatelessWidget {
   const TLoginForm({
@@ -15,6 +18,7 @@ class TLoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Form(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
@@ -23,8 +27,9 @@ class TLoginForm extends StatelessWidget {
             //Email
             TextFormField(
               decoration: const InputDecoration(
-                  prefixIcon: Icon(Iconsax.direct_right),
-                  labelText: TTexts.email),
+                prefixIcon: Icon(Iconsax.direct_right),
+                labelText: TTexts.email,
+              ),
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
             // Password
@@ -60,7 +65,8 @@ class TLoginForm extends StatelessWidget {
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text(TTexts.signIn))),
+                    onPressed: () => Get.to(() => const NavigationMenu()),
+                    child: const Text(TTexts.signIn))),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             /// Create Account Button
