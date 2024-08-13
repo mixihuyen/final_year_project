@@ -9,5 +9,9 @@ class TImages{
   static const String onBoardingImage1 = "assets/images/on_boarding_images/1.gif";
   static const String onBoardingImage2 = "assets/images/on_boarding_images/2.gif";
   static const String onBoardingImage3 = "assets/images/on_boarding_images/3.gif";
+  // -- Animation
+  static const String deliveredEmailIllustration = "assets/images/animations/img.png";
+  static const String staticSuccessIllustration = "assets/images/animations/img_1.png";
+
 
 }

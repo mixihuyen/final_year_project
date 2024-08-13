@@ -1,5 +1,5 @@
-import 'package:final_year_project/common/widgets/form_divider.dart';
-import 'package:final_year_project/common/widgets/social_buttons.dart';
+import 'package:final_year_project/common/widgets/login_signup/form_divider.dart';
+import 'package:final_year_project/common/widgets/login_signup/social_buttons.dart';
 import 'package:final_year_project/features/authentication/screens/login/widgets/login_form.dart';
 import 'package:final_year_project/features/authentication/screens/login/widgets/login_header.dart';
 import 'package:final_year_project/features/authentication/screens/login/widgets/login_logo.dart';
