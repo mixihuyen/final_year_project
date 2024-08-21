@@ -15,9 +15,9 @@ class TLoginLogo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image(
-          height: 200,
+          height: 180,
           image: AssetImage(
-              dark ? TImages.darkAppLogo : TImages.lightAppLogo),
+              dark ? TImages.shortdarkAppLogo : TImages.shortlightAppLogo),
         ),
       ],
     );

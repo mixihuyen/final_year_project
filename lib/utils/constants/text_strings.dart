@@ -16,7 +16,7 @@ class TTexts {
 
 
   // -- Home
-  static const String homeAppbarTitle = "Crystal coach";
+  static const String homeAppbarTitle = "Welcome to Crystal Coach!";
   static const String homeAppbarSubTitle = "Unbeatable deals. Unforgettable experiences";
 
   // -- Authentication Forms
@@ -54,7 +54,23 @@ class TTexts {
   static const String yourAccountCreatedTitle = "Your account successfully created!";
   static const String yourAccountCreatedSubTitle = "Welcome to your ultimate coach ticketing destination: Your account has been created, book now to get your ride as soon as possible!";
 
-  // -- Product
+  // -- Application
   static const String popularTrips = "Popular Trips";
+  static const String titleSearch = "Where do you want to go?";
+  static const String pickUpPoint = "Pick up point";
+  static const String selectPickUpPoint = "Select pick up point";
+  static const String destination = "Destination";
+  static const String selectDestination = "Select destination";
+  static const String date = "Date";
+  static const String selectDate = "Select date";
+  static const String search = "Search";
+  // -- Ticket
+  static const String titleTicket1 = "Quang Binh  - Da Nang";
+  static const String titleTicket2 = "Da Nang - Quang Binh";
+  static const String room34 = "34-room coach VIP";
+  static const String room24 = "24-room coach VIP";
+  static const String bookTicket = "Book Tickets";
+
+
 
 }
