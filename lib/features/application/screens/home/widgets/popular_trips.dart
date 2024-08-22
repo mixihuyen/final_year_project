@@ -1,7 +1,7 @@
-import 'package:final_year_project/features/application/screens/home/widgets/ticket_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../common/widgets/tickets/ticket_card/ticket_card.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class PopularTrips extends StatelessWidget {
@@ -13,8 +13,8 @@ class PopularTrips extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          BusTicketWidget(),
-          BusTicketWidget(),
+          TTicketCard(),
+          TTicketCard(),
         ],
       ),
     );

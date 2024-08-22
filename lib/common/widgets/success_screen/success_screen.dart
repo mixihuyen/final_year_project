@@ -1,4 +1,4 @@
-import 'package:final_year_project/common/styles/TSpacingStyle.dart';
+import 'package:final_year_project/common/styles/spacing_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/sizes.dart';

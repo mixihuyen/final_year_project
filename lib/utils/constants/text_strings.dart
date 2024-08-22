@@ -56,6 +56,7 @@ class TTexts {
 
   // -- Application
   static const String popularTrips = "Popular Trips";
+  static const String allTrips = "All Trips";
   static const String titleSearch = "Where do you want to go?";
   static const String pickUpPoint = "Pick up point";
   static const String selectPickUpPoint = "Select pick up point";

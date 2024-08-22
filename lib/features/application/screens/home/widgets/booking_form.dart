@@ -68,7 +68,7 @@ class _BookingFormState extends State<BookingForm> {
     final DateTime? date = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2024),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
 

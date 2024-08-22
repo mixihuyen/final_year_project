@@ -1,4 +1,5 @@
 import 'package:final_year_project/features/application/screens/home/home.dart';
+import 'package:final_year_project/features/application/screens/trips/allTrips.dart';
 import 'package:final_year_project/utils/constants/colors.dart';
 import 'package:final_year_project/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -38,5 +39,5 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [ const HomeScreen()];
+  final screens = [ const HomeScreen(), const AllTrips() ];
 }
