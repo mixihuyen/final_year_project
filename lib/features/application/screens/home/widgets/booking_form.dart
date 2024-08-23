@@ -158,7 +158,7 @@ class _BookingFormState extends State<BookingForm> {
                 onPressed: () {
                 },
                 child: Text(TTexts.search,
-                    style: Theme.of(context).textTheme.bodyLarge),
+                    style: Theme.of(context).textTheme.bodyLarge!.apply(color: TColors.white)),
               ),
             ),
           ],

@@ -6,6 +6,7 @@ import 'package:final_year_project/features/application/screens/home/widgets/pro
 import 'package:final_year_project/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/widgets/custom_shapes/containers/primary_header_container.dart';
+import '../../../../common/widgets/section_heading.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
@@ -26,9 +27,10 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   /// -- App Bar
                   THomeAppBar(dark: dark),
-                  const SizedBox(height: TSizes.spaceBtwItems),
+                  const SizedBox(height: TSizes.spaceBtwSections),
                 ],
               ),
+
             ),
 
             /// -- Search Bar
@@ -36,6 +38,7 @@ class HomeScreen extends StatelessWidget {
 
             /// -- Banner
             const TPromoSlider(),
+            //const TSectionHeading(title: TTexts.popularTrips,),
             Text(TTexts.popularTrips,
                 style: Theme.of(context).textTheme.titleLarge),
             const PopularTrips(),

@@ -36,7 +36,7 @@ class TTicketCard extends StatelessWidget {
             const TTicketTitleText(title: TTexts.titleTicket1),
             const SizedBox(height: TSizes.spaceBtwItems),
             /// -- Divider
-            Divider(color: Colors.grey[400], thickness: 1.0),
+            const Divider(),
             /// -- Ticket Details
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,7 +70,7 @@ class TTicketCard extends StatelessWidget {
               ],
             ),
             /// -- Divider
-            Divider(color: Colors.grey[400], thickness: 1.0),
+            const Divider(),
             /// -- Price and Button
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(TTexts.room34, style: Theme.of(context).textTheme.titleLarge),
@@ -90,7 +90,7 @@ class TTicketCard extends StatelessWidget {
                     // Action when button is pressed
                   },
                   child: Text(TTexts.bookTicket,
-                      style: Theme.of(context).textTheme.bodyLarge),
+                      style: Theme.of(context).textTheme.bodyLarge!.apply(color: TColors.white)),
                 ),
               ]),
             ]),

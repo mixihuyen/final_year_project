@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../utils/constants/sizes.dart';
 
-class TAppBar extends StatelessWidget  {
+class TAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TAppBar({
     super.key,
     this.title,
@@ -24,7 +24,7 @@ class TAppBar extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
       child: AppBar(
          automaticallyImplyLeading: false,
         leading: showBackArrow
@@ -41,6 +41,6 @@ class TAppBar extends StatelessWidget  {
     );
   }
 
-  // @override
-  // Size get preferredSize => Size.fromHeight(TDeviceUtils.getAppBarHeight());
+  @override
+  Size get preferredSize => Size.fromHeight(TDeviceUtils.getAppBarHeight());
 }
