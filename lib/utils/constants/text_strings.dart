@@ -16,7 +16,7 @@ class TTexts {
 
 
   // -- Home
-  static const String homeAppbarTitle = "Welcome to Crystal Coach!";
+  static const String homeAppbarTitle = "Welcome to Crystal Limousine!";
   static const String homeAppbarSubTitle = "Unbeatable deals. Unforgettable experiences";
 
   // -- Authentication Forms

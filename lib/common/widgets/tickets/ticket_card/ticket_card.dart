@@ -1,6 +1,9 @@
 import 'package:final_year_project/common/styles/shadows.dart';
 import 'package:final_year_project/common/widgets/text/ticket_title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../../../../features/application/screens/cart/cart.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
@@ -86,9 +89,7 @@ class TTicketCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {
-                    // Action when button is pressed
-                  },
+                  onPressed: () => Get.to(() => const CartScreen()),
                   child: Text(TTexts.bookTicket,
                       style: Theme.of(context).textTheme.bodyLarge!.apply(color: TColors.white)),
                 ),

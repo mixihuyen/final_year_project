@@ -36,7 +36,7 @@ class THomeAppBar extends StatelessWidget {
                       )),
                 ),
                 Text(TTexts.homeAppbarTitle,
-                    style: Theme.of(context).textTheme.titleLarge),
+                    style: Theme.of(context).textTheme.bodyLarge),
               ],
             ),
           ],

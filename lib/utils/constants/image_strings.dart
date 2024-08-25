@@ -15,12 +15,12 @@ class TImages{
   static const String deliveredEmailIllustration = "assets/images/animations/sendEmail.png";
   static const String staticSuccessIllustration = "assets/images/animations/success.png";
   // -- Banner Images
-  static const String banner1 = "assets/images/banners/img.png";
-  static const String banner2 = "assets/images/banners/img_1.png";
-  static const String banner3 = "assets/images/banners/img_2.png";
+  static const String banner1 = "assets/images/banners/banner1.png";
+  static const String banner2 = "assets/images/banners/banner2.png";
+  static const String banner3 = "assets/images/banners/banner3.png";
 
   // -- User Image
-  static const String user = "assets/images/user/image.png";
+  static const String user = "assets/images/user/user.png";
 
 
 
