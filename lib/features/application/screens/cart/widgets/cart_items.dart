@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/constants/text_strings.dart';
-import '../../../../utils/helpers/helper_functions.dart';
-import '../../../styles/shadows.dart';
-import '../../icons/t_ticket_icon.dart';
-import '../../select_date/select_date.dart';
-import '../../text/ticket_price_text.dart';
-import '../../text/ticket_title_text.dart';
-import '../ticket_location/ticket_location.dart';
-import 'add_remove_button.dart';
+import '../../../../../common/styles/shadows.dart';
+import '../../../../../common/widgets/icons/t_ticket_icon.dart';
+import '../../../../../common/widgets/select_date/select_date.dart';
+import '../../../../../common/widgets/text/ticket_price_text.dart';
+import '../../../../../common/widgets/text/ticket_title_text.dart';
+import '../../../../../common/widgets/tickets/cart/add_remove_button.dart';
+import '../../../../../common/widgets/tickets/ticket_location/ticket_location.dart';
+import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
 
-class TCartItem extends StatelessWidget {
-  const TCartItem({
+class TCartItems extends StatelessWidget {
+  const TCartItems({
     super.key,
   });
 

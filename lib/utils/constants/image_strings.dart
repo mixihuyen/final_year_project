@@ -14,6 +14,8 @@ class TImages{
   // -- Animation
   static const String deliveredEmailIllustration = "assets/images/animations/sendEmail.png";
   static const String staticSuccessIllustration = "assets/images/animations/success.png";
+  static const String successfulPayment = "assets/images/animations/payment_successful.png";
+
   // -- Banner Images
   static const String banner1 = "assets/images/banners/banner1.png";
   static const String banner2 = "assets/images/banners/banner2.png";
@@ -21,6 +23,12 @@ class TImages{
 
   // -- User Image
   static const String user = "assets/images/user/user.png";
+
+  // -- Payment Methods
+  static const String paypal = "assets/icons/payment_methods/paypal.png";
+  static const String zaloPay = "assets/icons/payment_methods/zaloPay.png";
+  static const String visa = "assets/icons/payment_methods/visa.png";
+
 
 
 

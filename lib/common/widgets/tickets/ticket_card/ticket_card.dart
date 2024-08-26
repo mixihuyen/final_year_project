@@ -76,7 +76,7 @@ class TTicketCard extends StatelessWidget {
             const Divider(),
             /// -- Price and Button
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(TTexts.room34, style: Theme.of(context).textTheme.titleLarge),
+              Text(TTexts.room34, style: Theme.of(context).textTheme.titleMedium),
               Column(children: [
                 /// -- Price
                 const TTicketPriceText(price: '250.000'),

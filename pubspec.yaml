@@ -46,11 +46,11 @@ flutter:
 
   assets:
     - assets/logos/
-    - assets/icons/
     - assets/images/on_boarding_images/
     - assets/images/animations/
     - assets/images/banners/
     - assets/images/user/
+    - assets/icons/payment_methods/
 
 
 

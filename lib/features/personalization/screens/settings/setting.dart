@@ -46,7 +46,6 @@ class SettingsScreen extends StatelessWidget {
                   TSectionHeading(title: 'Account Setting', showActionButton: false,),
                   SizedBox(height: TSizes.spaceBtwItems),
                   TSettingMenuTile(icon: Iconsax.notification, title: 'Notifications', subTitle: 'Set any kind of notification message'),
-                  TSettingMenuTile(icon: Iconsax.discount_shape, title: 'My Coupons', subTitle: 'List of all the discounted coupons'),
                   TSettingMenuTile(icon: Iconsax.security_card, title: 'Account Privacy', subTitle: 'Manage data usage and connected accounts'),
                 ],
               ),
