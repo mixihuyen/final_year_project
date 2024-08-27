@@ -32,6 +32,7 @@ class TCartItems extends StatelessWidget {
             boxShadow: [TShadowStyle.ticketShadow],
           ),
           child: const Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// -- Title

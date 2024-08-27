@@ -13,7 +13,6 @@ class TPaymentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
     return Column(
       children: [
         TSectionHeading(

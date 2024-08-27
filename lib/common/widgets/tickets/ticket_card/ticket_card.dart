@@ -33,6 +33,7 @@ class TTicketCard extends StatelessWidget {
           boxShadow: [TShadowStyle.ticketShadow],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// -- Title

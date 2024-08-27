@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import 'features/application/screens/ticket/mytickets.dart';
 import 'features/personalization/screens/settings/setting.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -41,5 +42,5 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [ const HomeScreen(), const AllTrips(),Container(color: Colors.teal), const SettingsScreen()];
+  final screens = [ const HomeScreen(), const AllTrips(),const MyTicketScreen(), const SettingsScreen()];
 }

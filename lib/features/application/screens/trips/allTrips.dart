@@ -15,18 +15,14 @@ class AllTrips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: TAppBar(
+          title: Text(TTexts.allTrips,
+              style: Theme.of(context).textTheme.headlineSmall)),
       body: ListView(children: [
         Container(
           padding: const EdgeInsets.only(right: 20),
-          child: Column(
-            children: [
-              const Gap(40),
-              Text(TTexts.allTrips,
-                  style: Theme.of(context).textTheme.titleLarge),
-              TGridLayout(
-                  itemCount: 4, itemBuilder: (_, index) => const TTicketCard())
-            ],
-          ),
+          child: TGridLayout(
+              itemCount: 4, itemBuilder: (_, index) => const TTicketCard()),
         ),
       ]),
     );
