@@ -1,4 +1,7 @@
+import 'package:final_year_project/features/authentication/controllers/signup/signup_controller.dart';
 import 'package:final_year_project/features/authentication/screens/signup/ver%C3%ACfy_email.dart';
+import 'package:final_year_project/features/authentication/screens/signup/widgets/terns_conditions_checkbox.dart';
+import 'package:final_year_project/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -16,7 +19,9 @@ class TSignupForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignupController());
     return Form(
+      key: controller.signupFormKey,
       child: Column(
         children: [
           /// First & Last Name
@@ -24,6 +29,9 @@ class TSignupForm extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
+                  controller: controller.firstName,
+                  validator: (value) =>
+                      TValidator.validateEmptyText('First Name', value),
                   expands: false,
                   decoration: const InputDecoration(
                       labelText: TTexts.firstName,
@@ -33,6 +41,9 @@ class TSignupForm extends StatelessWidget {
               const SizedBox(width: TSizes.spaceBtwInputFields),
               Expanded(
                 child: TextFormField(
+                  controller: controller.lastName,
+                  validator: (value) =>
+                      TValidator.validateEmptyText('Last Name', value),
                   expands: false,
                   decoration: const InputDecoration(
                       labelText: TTexts.lastName,
@@ -45,6 +56,9 @@ class TSignupForm extends StatelessWidget {
 
           /// User Name
           TextFormField(
+            controller: controller.username,
+            validator: (value) =>
+                TValidator.validateEmptyText('Username', value),
             expands: false,
             decoration: const InputDecoration(
                 labelText: TTexts.username,
@@ -54,19 +68,39 @@ class TSignupForm extends StatelessWidget {
 
           /// Phone Number
           TextFormField(
+            controller: controller.phoneNumber,
+            validator: (value) => TValidator.validatePhoneNumber(value),
             expands: false,
             decoration: const InputDecoration(
                 labelText: TTexts.phoneNo, prefixIcon: Icon(Iconsax.call)),
           ),
           const SizedBox(height: TSizes.spaceBtwInputFields),
 
-          /// Password
+          /// E-Mail
           TextFormField(
-            obscureText: true,
+            controller: controller.email,
+            validator: (value) => TValidator.validateEmail(value),
+            expands: false,
             decoration: const InputDecoration(
+                labelText: TTexts.email, prefixIcon: Icon(Iconsax.direct)),
+          ),
+          const SizedBox(height: TSizes.spaceBtwInputFields),
+
+          /// Password
+          Obx(
+            () => TextFormField(
+              validator: (value) => TValidator.validatePassword(value),
+              controller: controller.password,
+              obscureText: controller.hidePassword.value,
+              decoration: InputDecoration(
                 labelText: TTexts.password,
-                prefixIcon: Icon(Iconsax.password_check),
-                suffixIcon: Icon(Iconsax.eye_slash)),
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                  onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
+                  icon: Icon(controller.hidePassword.value ? Iconsax.eye_slash : Iconsax.eye),
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: TSizes.spaceBtwSections),
 
@@ -78,55 +112,11 @@ class TSignupForm extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-                onPressed: () => Get.to(() => const VerifyEmailScreen()),
+                onPressed: () => controller.signup(),
                 child: const Text(TTexts.createAccount)),
           )
         ],
       ),
-    );
-  }
-}
-
-class TTernAndConditionCheckbox extends StatelessWidget {
-  const TTernAndConditionCheckbox({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
-    return Row(
-      children: [
-        SizedBox(
-            width: 24,
-            height: 24,
-            child: Checkbox(value: true, onChanged: (value) {})),
-        //const SizedBox(width: TSizes.spaceBtwItems),
-        Text.rich(
-          TextSpan(children: [
-            TextSpan(
-                text: ' ${TTexts.iAgreeTo} ',
-                style: Theme.of(context).textTheme.bodySmall),
-            TextSpan(
-                text: TTexts.privacyPolicy,
-                style: Theme.of(context).textTheme.bodyMedium!.apply(
-                      color: dark ? TColors.white : TColors.primary,
-                      decoration: TextDecoration.underline,
-                      decorationColor: dark ? TColors.white : TColors.primary,
-                    )),
-            TextSpan(
-                text: ' ${TTexts.and} ',
-                style: Theme.of(context).textTheme.bodySmall),
-            TextSpan(
-                text: TTexts.termsOfUse,
-                style: Theme.of(context).textTheme.bodyMedium!.apply(
-                      color: dark ? TColors.white : TColors.primary,
-                      decoration: TextDecoration.underline,
-                      decorationColor: dark ? TColors.white : TColors.primary,
-                    )),
-          ]),
-        )
-      ],
     );
   }
 }

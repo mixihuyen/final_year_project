@@ -29,6 +29,8 @@ class TImages{
   static const String zaloPay = "assets/icons/payment_methods/zaloPay.png";
   static const String visa = "assets/icons/payment_methods/visa.png";
 
+  static const String animation = "assets/images/animations/proccess_animation.json";
+
 
 
 

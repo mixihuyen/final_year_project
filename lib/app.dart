@@ -1,3 +1,4 @@
+import 'package:final_year_project/bindings/general_bindings.dart';
 import 'package:final_year_project/features/authentication/screens/onboarding/onboarding.dart';
 import 'package:final_year_project/utils/constants/text_strings.dart';
 import 'package:final_year_project/utils/theme/theme.dart';
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
+      initialBinding: GeneralBindings(),
       home: const OnBoardingScreen(),
     );
   }
