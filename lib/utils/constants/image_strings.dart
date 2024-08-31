@@ -15,6 +15,8 @@ class TImages{
   static const String deliveredEmailIllustration = "assets/images/animations/sendEmail.png";
   static const String staticSuccessIllustration = "assets/images/animations/success.png";
   static const String successfulPayment = "assets/images/animations/payment_successful.png";
+  static const String animation = "assets/images/animations/proccess_animation.json";
+  static const String successfullyRegisterAnimation = "assets/images/animations/SuccessfullyDone.json";
 
   // -- Banner Images
   static const String banner1 = "assets/images/banners/banner1.png";
@@ -29,7 +31,7 @@ class TImages{
   static const String zaloPay = "assets/icons/payment_methods/zaloPay.png";
   static const String visa = "assets/icons/payment_methods/visa.png";
 
-  static const String animation = "assets/images/animations/proccess_animation.json";
+
 
 
 

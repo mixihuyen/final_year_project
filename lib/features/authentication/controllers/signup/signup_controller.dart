@@ -78,7 +78,7 @@ class SignupController extends GetxController {
       TLoaders.successSnackBar(title: 'Congratulation', message: 'Your account has been created! Verify email to continue.');
 
       // Move to Verify Email Screen
-      Get.to(() => const VerifyEmailScreen());
+      Get.to(() =>  VerifyEmailScreen(email: email.text.trim()));
 
     } catch (e) {
       TFullScreenLoader.stopLoading();
@@ -111,7 +111,7 @@ class NetworkManager extends GetxController {
   }
 
   /// Check the internet connection status.
-  /// Returns ⁠ true ⁠ if connected, ⁠ false ⁠ otherwise.
+  /// Returns true if connected, false otherwise.
   Future<bool> isConnected() async {
     try {
       final result = await _connectivity.checkConnectivity();

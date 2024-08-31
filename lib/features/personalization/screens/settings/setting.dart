@@ -12,6 +12,7 @@ import '../../../../common/widgets/list_tiles/user_profile_tile.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../profile/profile.dart';
+import '../../../../data/repositories/authentication/authentication_repository.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -52,6 +53,12 @@ class SettingsScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(TSizes.defaultSpace),
+        child: OutlinedButton(
+            onPressed: () => AuthenticationRepository.instance.logout(),
+            child: const Text('Logout')),
       ),
     );
   }
