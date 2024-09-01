@@ -1,5 +1,5 @@
-
 import 'package:final_year_project/data/repositories/authentication/authentication_repository.dart';
+import 'package:final_year_project/features/personalization/controllers/user_controller.dart';
 import 'package:final_year_project/utils/popups/fulll_screen_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -16,12 +16,12 @@ class LoginController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-
+  final userController = Get.put(UserController());
 
   @override
   void onInit() {
-    email.text = localStorage.read('REMEMBER_ME_EMAIL');
-    password.text = localStorage.read('REMEMBER_ME_PASSWORD');
+    email.text = localStorage.read('REMEMBER_ME_EMAIL') ?? '';
+    password.text = localStorage.read('REMEMBER_ME_PASSWORD') ?? '';
     super.onInit();
   }
 
@@ -55,11 +55,40 @@ class LoginController extends GetxController {
 
       //Redirect
       AuthenticationRepository.instance.screenRedirect();
-    }
-    catch(e) {
+    } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
 
+  Future<void> googleSignIn() async {
+    try {
+      // Start Loading
+      TFullScreenLoader.openLoadingDialog(
+          'Logging you in... ', TImages.animation);
+
+      // Check Internet Connectivity
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        TFullScreenLoader.stopLoading();
+        return;
+      }
+
+      // Google Authentication
+      final userCredentials =
+          await AuthenticationRepository.instance.signInWithGoogle();
+
+      // Save User Record
+      await userController.saveUserRecord(userCredentials);
+
+      //Remove Loader
+      TFullScreenLoader.stopLoading();
+
+      //Redirect
+      AuthenticationRepository.instance.screenRedirect();
+    } catch (e) {
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+    }
+  }
 }
