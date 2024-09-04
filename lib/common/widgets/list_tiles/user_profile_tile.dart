@@ -6,6 +6,8 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
+import '../../styles/shimmer.dart';
+import '../images/t_circular_image.dart';
 
 class TUserProfileTile extends StatelessWidget {
   const TUserProfileTile({
@@ -17,11 +19,19 @@ class TUserProfileTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(UserController());
     return ListTile(
-      leading: const Image(
-        height: 50,
-        width: 50,
-        image: AssetImage(TImages.user),
-      ),
+      leading: Obx(() {
+        final networkImage = controller.user.value.profilePicture;
+        final image =
+        networkImage.isNotEmpty ? networkImage : TImages.user;
+        return controller.imageLoading.value
+            ? const TShimmerEffect(
+            width: 80, height: 80, radius: 80)
+            : TCircularImage(
+            image: image,
+            width: 50,
+            height: 50,
+            isNetworkImage: networkImage.isNotEmpty);
+      }),
       title: Obx(
           () => Text(controller.user.value.fullName, style: Theme
             .of(context)
