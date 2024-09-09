@@ -83,7 +83,7 @@ class TMyTicketListItem extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('Date: ',
+                    Text('Departure date: ',
                         style: Theme.of(context).textTheme.bodyMedium),
                     Text('13/03/2024 ',
                         style: Theme.of(context).textTheme.bodyMedium),
