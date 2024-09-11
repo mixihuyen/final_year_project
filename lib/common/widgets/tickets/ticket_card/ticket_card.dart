@@ -39,7 +39,7 @@ class TTicketCard extends StatelessWidget {
           margin: const EdgeInsets.only(
               top: TSizes.defaultSpace,
               bottom: TSizes.defaultSpace,
-              left: TSizes.defaultSpace),
+              ),
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           decoration: BoxDecoration(
             color: dark ? TColors.textPrimary : TColors.white,

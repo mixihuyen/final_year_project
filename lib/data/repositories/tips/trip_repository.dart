@@ -28,4 +28,24 @@ class TripRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
+  Future<List<TripModel>> getTripForCategory ({required String categoryId}) async {
+    try {
+      //Query to get all documents where tripId matches provided categoryId
+      QuerySnapshot tripCategoryQuery = await _db.collection('TripCategory').where('categoryId', isEqualTo: categoryId).get();
+      // Extract tripIds from the document
+      List<String> tripIds = tripCategoryQuery.docs.map((doc) => doc['tripId'] as String).toList();
+      // Query to get all document where the tripId is in the list of tripIds, FieldPath.documentId to query documents in Collection
+      final tripsQuery = await _db.collection('Trips').where(FieldPath.documentId, whereIn: tripIds).limit(2).get();
+      //Extract trip name or other relevant data from the documents
+      List<TripModel> trips = tripsQuery.docs.map((doc) => TripModel.fromSnapshot(doc)).toList();
+
+      return trips;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }

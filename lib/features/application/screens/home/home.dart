@@ -38,9 +38,6 @@ class HomeScreen extends StatelessWidget {
 
             /// -- Banner
             const TPromoSlider(),
-            //const TSectionHeading(title: TTexts.popularTrips,),
-            Text(TTexts.popularTrips,
-                style: Theme.of(context).textTheme.titleLarge),
             const PopularTrips(),
           ],
         ),

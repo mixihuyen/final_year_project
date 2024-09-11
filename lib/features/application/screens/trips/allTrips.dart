@@ -21,54 +21,46 @@ class AllTrips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     final controller = Get.put(CategoryController());
-    return Obx(() {
-      final categories = controller.allCategories;
-      if (controller.isLoading.value) {
-        return Scaffold(
-          appBar: TAppBar(
-            title: Text(TTexts.allTrips, style: Theme.of(context).textTheme.headlineSmall),
-          ),
-          body: const Center(child: CircularProgressIndicator()),
-        );
-      }
-
-      if (categories.isEmpty) {
-        return Scaffold(
-          appBar: TAppBar(
-            title: Text(TTexts.allTrips, style: Theme.of(context).textTheme.headlineSmall),
-          ),
-          body: const Center(child: Text("There are no categories.")),
-        );
-      }
-      return DefaultTabController(
-        length: categories.length,
-        child: Scaffold(
-          appBar: TAppBar(
-              title: Text(TTexts.allTrips,
-                  style: Theme.of(context).textTheme.headlineSmall)),
-          body: NestedScrollView(
-            headerSliverBuilder: (_, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  pinned: true,
-                  floating: true,
-                  expandedHeight: 0,
-                  bottom: TTabbar(
-                      tabs: categories
-                          .map((category) => Tab(child: Text(category.name)))
-                          .toList()),
-                ),
-              ];
-            },
-            body: TabBarView(
-              children: categories
-                  .map((category) => TTripTab(category: category))
-                  .toList(),
-            ),
-          ),
+    return Scaffold(
+        backgroundColor: dark ? TColors.dark : TColors.light,
+        appBar: TAppBar(
+          title: Text(TTexts.allTrips,
+              style: Theme.of(context).textTheme.headlineSmall),
         ),
-      );
-    });
+        body: Obx(() {
+          final categories = controller.allCategories;
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (categories.isEmpty) {
+            return const Center(child: Text("There are no categories."));
+          }
+          return DefaultTabController(
+            length: categories.length,
+            child: NestedScrollView(
+                headerSliverBuilder: (_, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      pinned: true,
+                      floating: true,
+                      expandedHeight: 0,
+                      bottom: TTabbar(
+                          tabs: categories
+                              .map(
+                                  (category) => Tab(child: Text(category.name)))
+                              .toList()),
+                    ),
+                  ];
+                },
+                body: TabBarView(
+                  children: categories
+                      .map((category) => TTripTab(category: category))
+                      .toList(),
+                ),
+              ),
+            );
+        }));
   }
 }

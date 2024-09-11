@@ -1,5 +1,7 @@
 import 'package:final_year_project/data/repositories/categories/category_repository.dart';
+import 'package:final_year_project/data/repositories/tips/trip_repository.dart';
 import 'package:final_year_project/features/application/models/category_model.dart';
+import 'package:final_year_project/features/application/models/trip_model.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/popups/fulll_screen_loader.dart';
@@ -34,5 +36,15 @@ class CategoryController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+  Future<List<TripModel>> getCategoryTrips({required String categoryId}) async {
+    try{
+      final trips = await TripRepository.instance.getTripForCategory(categoryId: categoryId);
+      return trips;
+    } catch (e) {
+      TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      return [];
+    }
+
   }
 }
