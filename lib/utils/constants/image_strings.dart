@@ -14,7 +14,7 @@ class TImages{
   // -- Animation
   static const String deliveredEmailIllustration = "assets/images/animations/sendEmail.png";
   static const String staticSuccessIllustration = "assets/images/animations/success.png";
-  static const String successfulPayment = "assets/images/animations/payment_successful.png";
+  static const String successfulPayment = "assets/images/animations/PaymentDone.json";
   static const String animation = "assets/images/animations/Loading.json";
   static const String successfullyRegisterAnimation = "assets/images/animations/SuccessfullyDone.json";
 

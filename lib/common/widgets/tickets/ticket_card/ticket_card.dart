@@ -1,5 +1,6 @@
 import 'package:final_year_project/common/styles/shadows.dart';
 import 'package:final_year_project/common/widgets/text/ticket_title_text.dart';
+import 'package:final_year_project/features/application/controllers/cart_controller.dart';
 import 'package:final_year_project/features/application/controllers/trip_controller.dart';
 import 'package:final_year_project/features/application/models/start_model.dart';
 import 'package:final_year_project/features/application/models/trip_model.dart';
@@ -27,9 +28,9 @@ class TTicketCard extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
     final categoryController = Get.put(CategoryController());
     return Obx(() {
-      CategoryModel? category = categoryController.allCategories
-          .firstWhereOrNull(
-            (category) => category.id == trip.categoryId,
+      CategoryModel? category =
+          categoryController.allCategories.firstWhereOrNull(
+        (category) => category.id == trip.categoryId,
       );
 
       return GestureDetector(
@@ -37,9 +38,9 @@ class TTicketCard extends StatelessWidget {
         child: Container(
           width: 350,
           margin: const EdgeInsets.only(
-              top: TSizes.defaultSpace,
-              bottom: TSizes.defaultSpace,
-              ),
+            top: TSizes.defaultSpace,
+            bottom: TSizes.defaultSpace,
+          ),
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           decoration: BoxDecoration(
             color: dark ? TColors.textPrimary : TColors.white,
@@ -50,14 +51,10 @@ class TTicketCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               /// -- Title
               TTicketTitleText(
-                  title: '${trip.start != null
-                      ? trip.start!.startProvince
-                      : ''} - ${trip.end != null
-                      ? trip.end!.endProvince
-                      : ''}'),
+                  title:
+                      '${trip.start != null ? trip.start!.startProvince : ''} - ${trip.end != null ? trip.end!.endProvince : ''}'),
               const SizedBox(height: TSizes.spaceBtwItems),
 
               /// -- Divider
@@ -68,7 +65,6 @@ class TTicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   /// -- Icon
                   const TicketDetailIcons(),
 
@@ -80,19 +76,19 @@ class TTicketCard extends StatelessWidget {
                           time: trip.start != null
                               ? trip.start!.departureTime
                               : '',
-                          location: trip.start != null ? trip.start!
-                              .startLocation : '',
-                          province: trip.start != null ? trip.start!
-                              .startProvince : ''),
+                          location: trip.start != null
+                              ? trip.start!.startLocation
+                              : '',
+                          province: trip.start != null
+                              ? trip.start!.startProvince
+                              : ''),
                       const SizedBox(height: TSizes.spaceBtwItems),
                       TicketTimeLocation(
                           time: trip.end != null ? trip.end!.arrivalTime : '',
-                          location: trip.end != null
-                              ? trip.end!.endLocation
-                              : '',
-                          province: trip.end != null
-                              ? trip.end!.endProvince
-                              : '')
+                          location:
+                              trip.end != null ? trip.end!.endLocation : '',
+                          province:
+                              trip.end != null ? trip.end!.endProvince : '')
                     ],
                   ),
                   Text(
@@ -110,32 +106,13 @@ class TTicketCard extends StatelessWidget {
               /// -- Price and Button
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(category != null ? category.name : 'Unknown Category',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleMedium),
+                    style: Theme.of(context).textTheme.titleMedium),
                 Column(children: [
-
                   /// -- Price
                   TTicketPriceText(price: trip.getFormattedPrice()),
 
                   /// -- Button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: TColors.primary,
-                      padding: const EdgeInsets.all(10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    onPressed: () => Get.to(() => const CartScreen()),
-                    child: Text(TTexts.bookTicket,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .apply(color: TColors.white)),
-                  ),
+                  BookButton(trip: trip)
                 ]),
               ]),
             ],
@@ -143,5 +120,35 @@ class TTicketCard extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class BookButton extends StatelessWidget {
+  const BookButton({
+    super.key,
+    required this.trip,
+  });
+
+  final TripModel trip;
+  @override
+  Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: TColors.primary,
+        padding: const EdgeInsets.all(10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      onPressed: () {
+        cartController.addItemToCart(trip);
+      },
+      child: Text(TTexts.bookTicket,
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .apply(color: TColors.white)),
+    );
   }
 }

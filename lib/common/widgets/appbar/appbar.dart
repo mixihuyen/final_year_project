@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../features/application/controllers/cart_controller.dart';
 import '../../../utils/constants/sizes.dart';
 
 class TAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -23,13 +24,14 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
       child: AppBar(
          automaticallyImplyLeading: false,
         leading: showBackArrow
             ? IconButton(
-                onPressed: () => Get.back(),
+                onPressed: () =>{ Get.back(), cartController.clearCart()},
                 icon: const Icon(Iconsax.arrow_left))
             : leadingIcon != null
                 ? IconButton(

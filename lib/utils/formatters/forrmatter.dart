@@ -20,4 +20,13 @@ class TFormatter {
     }
     return phoneNumber;
   }
+
+  static String format(double price) {
+    final numberFormat = NumberFormat.currency(
+      locale: 'vi_VN',
+      symbol: 'VND',
+      decimalDigits: 0,
+    );
+    return numberFormat.format(price);
+  }
 }

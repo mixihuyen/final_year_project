@@ -3,6 +3,7 @@ import 'package:final_year_project/features/application/models/start_model.dart'
 import 'package:intl/intl.dart';
 
 import '../../../common/widgets/tickets/ticket_location/ticket_location.dart';
+import '../../../utils/formatters/forrmatter.dart';
 import 'end_model.dart';
 
 class TripModel {
@@ -22,6 +23,9 @@ class TripModel {
     this.start,
     this.end
   });
+  String getFormattedPrice() {
+    return TFormatter.format(price);
+  }
 
   /// Phương thức để tạo một đối tượng TripModel rỗng
   static TripModel empty() => TripModel(
@@ -55,13 +59,5 @@ class TripModel {
       start: StartModel.fromJson(data['Start']),
       end: EndModel.fromJson(data['End'])
     );
-  }
-  String getFormattedPrice() {
-    final numberFormat = NumberFormat.currency(
-      locale: 'vi_VN', // Đặt ngôn ngữ là tiếng Việt
-      symbol: 'VND', // Đơn vị tiền tệ là VND
-      decimalDigits: 0, // Số chữ số thập phân
-    );
-    return numberFormat.format(price);
   }
 }

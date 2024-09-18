@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../../../../common/styles/shadows.dart';
 import '../../../../../common/widgets/icons/t_ticket_icon.dart';
@@ -11,83 +14,142 @@ import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../controllers/cart_controller.dart';
+import '../../../controllers/category_controller.dart';
+import '../../../models/cart_item_model.dart';
+import '../../../models/category_model.dart';
 
 class TCartItems extends StatelessWidget {
   const TCartItems({
     super.key,
   });
 
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 362,
-          padding: const EdgeInsets.all(TSizes.defaultSpace),
-          decoration: BoxDecoration(
-            color: THelperFunctions.isDarkMode(context)
-                ? TColors.textPrimary
-                : TColors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [TShadowStyle.ticketShadow],
+    final cartController = Get.put(CartController()); // Lấy controller giỏ hàng
+    final dark = THelperFunctions.isDarkMode(context);
+    final categoryController = Get.put(CategoryController());
+
+    return Obx(() {
+      if (cartController.cartItems.isEmpty) {
+        return Center(
+          child: Text(
+            'Your cart is empty!',
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// -- Title
-              TTicketTitleText(title: TTexts.titleTicket1),
-              SizedBox(height: TSizes.spaceBtwItems),
+        );
+      }
 
-              /// -- Divider
-              Divider(),
+      return Column(
+        children: cartController.cartItems.map((cartItem) {
+          CategoryModel? category = categoryController.allCategories.firstWhereOrNull(
+                  (cat) => cat.id == cartItem.category,);
+          return Container(
+            width: 362,
+            margin: const EdgeInsets.only(bottom: TSizes.defaultSpace),
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            decoration: BoxDecoration(
+              color: dark ? TColors.textPrimary : TColors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [TShadowStyle.ticketShadow],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// -- Title
+                TTicketTitleText(
+                  title:
+                  '${cartItem.start?.startProvince ?? ''} - ${cartItem.end?.endProvince ?? ''}',
+                ),
+                const SizedBox(height: TSizes.spaceBtwItems),
 
-              /// -- Ticket Details
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// -- Icon
-                  TicketDetailIcons(),
-                  SizedBox(width: TSizes.defaultSpace),
+                /// -- Divider
+                const Divider(),
 
-                  /// -- Details
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TicketTimeLocation(
-                        time: '08:25',
-                        location: 'BX Le Thuy',
-                        province: 'Quang Binh',
-                      ),
-                      SizedBox(height: TSizes.spaceBtwItems),
-                      TicketTimeLocation(
-                        time: '14:20',
-                        location: 'BX Trung Tam Da Nang',
-                        province: 'Da Nang',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              DatePicker(),
+                /// -- Ticket Details
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// -- Icon
+                    const TicketDetailIcons(),
+                    const SizedBox(width: TSizes.defaultSpace),
 
-              /// -- Divider
-              Divider(),
+                    /// -- Details
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TicketTimeLocation(
+                          time: cartItem.start?.departureTime ?? '',
+                          location: cartItem.start?.startLocation ?? '',
+                          province: cartItem.start?.startProvince ?? '',
+                        ),
+                        const SizedBox(height: TSizes.spaceBtwItems),
+                        TicketTimeLocation(
+                          time: cartItem.end?.arrivalTime ?? '',
+                          location: cartItem.end?.endLocation ?? '',
+                          province: cartItem.end?.endProvince ?? '',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
 
-              /// -- Price and Button
-              Row(
+                /// -- Category
+                Row(
+                  children: [
+                    const Padding(padding: EdgeInsets.only(top: 40)),
+                    Text(
+                      'Category: ',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                    Text(
+                      category?.name ?? 'Unknown Category',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+
+                /// -- Date
+                DatePicker(cartItem: cartItem),
+
+                const Divider(),
+
+                /// -- Price and Quantity
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TTicketQuantityWithAddRemoveButton(),
-                    /// -- Price
-                    TTicketPriceText(price: '250.000'),
+                    /// -- Quantity with add/remove buttons
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            cartController.updateQuantity(cartItem, -1);
+                          },
+                          icon: const Icon(Icons.remove),
+                        ),
+                        Text('${cartItem.quantity}'),
+                        IconButton(
+                          onPressed: () {
+                            cartController.updateQuantity(cartItem, 1);
+                          },
+                          icon: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
 
-                    /// -- Button
-                  ]),
-            ],
-          ),
-        ),
-      ],
-    );
+                    /// -- Price
+                    TTicketPriceText(
+                      price: cartItem.getFormattedPrice(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      );
+    });
   }
 }
