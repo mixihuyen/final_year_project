@@ -26,6 +26,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   image_picker: ^1.1.2
   shimmer: ^3.0.0
+  qr_flutter: ^4.1.0
 
   # Icons
   font_awesome_flutter: any

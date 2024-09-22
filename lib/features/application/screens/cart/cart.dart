@@ -2,11 +2,13 @@ import 'package:final_year_project/common/widgets/appbar/appbar.dart';
 import 'package:final_year_project/common/widgets/custom_shapes/containers/rounded_container.dart';
 import 'package:final_year_project/common/widgets/custom_shapes/icon/circular_icon.dart';
 import 'package:final_year_project/features/application/controllers/cart_controller.dart';
+import 'package:final_year_project/features/application/screens/cart/widgets/information_section.dart';
 import 'package:final_year_project/features/application/screens/cart/widgets/payment_section.dart';
 import 'package:final_year_project/features/application/screens/cart/widgets/cart_items.dart';
 import 'package:final_year_project/features/application/screens/cart/widgets/total_section.dart';
 import 'package:final_year_project/navigation_menu.dart';
 import 'package:final_year_project/utils/constants/image_strings.dart';
+import 'package:final_year_project/utils/formatters/forrmatter.dart';
 import 'package:final_year_project/utils/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +27,7 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
+import '../../controllers/order_controller.dart';
 import '../../models/cart_item_model.dart';
 import '../../models/trip_model.dart';
 
@@ -36,6 +39,8 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final cartController = Get.put(CartController());
+    final orderController = Get.put(OrderController());
+    final totalAmount = cartController.totalCartPrice.value;
     return Scaffold(
       appBar: TAppBar(
         showBackArrow: true,
@@ -57,6 +62,8 @@ class CartScreen extends StatelessWidget {
                   children: [
                     TTotalSection(),
                     Divider(),
+                    TInformationSection(),
+                    Divider(),
                     TPaymentSection(),
                   ],
                 ),
@@ -65,26 +72,21 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(TSizes.defaultSpace),
-        child: ElevatedButton(
-          onPressed: () {
-            if (_checkCartItemsDates(cartController.cartItems)) {
-              // Nếu tất cả các mục đã có ngày, tiến hành thanh toán
-              Get.to(() => SuccessScreen(
-                image: TImages.successfulPayment,
-                title: 'Payment Success!',
-                subTitle: 'Your ticket is ready!',
-                onPressed: () => Get.offAll(() => const NavigationMenu()),
-              ));
-            } else {
-              // Nếu có mục chưa có ngày, hiển thị thông báo yêu cầu chọn ngày
-              TLoaders.customToast(message:  'Please select a date for all items before checking out');
-            }
-          },
-          child: const Text('Checkout 250.000 VND'),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(TSizes.defaultSpace),
+          child: ElevatedButton(
+            onPressed: () {
+              if (_checkCartItemsDates(cartController.cartItems)) {
+                orderController.processOrder(totalAmount);
+              } else {
+                TLoaders.customToast(
+                  message: 'Please select a date for all items before checking out',
+                );
+              }
+            },
+            child: const Text('Check out'),
+          ),
         ),
-      ),
     );
   }
 }
@@ -99,4 +101,5 @@ bool _checkCartItemsDates(List<CartItemModel> cartItems) {
   // Nếu tất cả các mục đều đã chọn ngày, trả về true
   return true;
 }
+
 

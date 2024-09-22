@@ -21,14 +21,14 @@ class DatePicker extends StatelessWidget {
       children: <Widget>[
         Row(
           children: [
-            Text('Date: ', style: Theme.of(context).textTheme.labelMedium),
+            Text('Departure Date: ', style: Theme.of(context).textTheme.bodySmall),
             TextButton(
               onPressed: () => cartController.datePick(context, cartItem), // Gọi hàm selectDate
               child: Text(
                 cartItem.date == null
                     ? 'Please select a date'
                     : '${cartItem.date!.day}/${cartItem.date!.month}/${cartItem.date!.year}',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
 
             ),

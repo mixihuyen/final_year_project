@@ -19,15 +19,14 @@ class ChangePhoneNumber  extends StatelessWidget {
     final controller = Get.put(UpdatePhoneNumberController());
     return Scaffold(
       appBar: TAppBar(
-        showBackArrow: true,
-        title: Text('Change Username', style: Theme.of(context).textTheme.headlineSmall),
+        title: Text('Change Phone Number', style: Theme.of(context).textTheme.headlineSmall),
       ),
       body: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Change your username', style: Theme.of(context).textTheme.labelMedium),
+            Text('Change your Phone Number', style: Theme.of(context).textTheme.labelMedium),
             const SizedBox(height: TSizes.spaceBtwSections),
             Form(key: controller.updatePhoneNumberFormKey,
                 child: Column(

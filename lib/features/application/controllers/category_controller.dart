@@ -1,5 +1,5 @@
 import 'package:final_year_project/data/repositories/categories/category_repository.dart';
-import 'package:final_year_project/data/repositories/tips/trip_repository.dart';
+import 'package:final_year_project/data/repositories/trips/trip_repository.dart';
 import 'package:final_year_project/features/application/models/category_model.dart';
 import 'package:final_year_project/features/application/models/trip_model.dart';
 import 'package:get/get.dart';

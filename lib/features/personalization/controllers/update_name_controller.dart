@@ -56,10 +56,11 @@ class UpdateNameController extends GetxController{
 
       //Remove Loader
       TFullScreenLoader.stopLoading();
+      Get.back();
 
       TLoaders.successSnackBar(title: 'Congratulation', message: 'Your Name has been update');
 
-      Get.offAll(() => const SettingsScreen());
+
 
     } catch (e) {
       TFullScreenLoader.stopLoading();

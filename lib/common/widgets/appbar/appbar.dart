@@ -25,20 +25,26 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
-      child: AppBar(
-         automaticallyImplyLeading: false,
-        leading: showBackArrow
-            ? IconButton(
-                onPressed: () =>{ Get.back(), cartController.clearCart()},
-                icon: const Icon(Iconsax.arrow_left))
-            : leadingIcon != null
-                ? IconButton(
-                    onPressed: leadingOnPressed, icon: Icon(leadingIcon))
-                : null,
-        title: title,
-        actions: actions,
+    return WillPopScope(
+      onWillPop: () async {
+        cartController.clearCart();
+        return true;
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
+        child: AppBar(
+           automaticallyImplyLeading: false,
+          leading: showBackArrow
+              ? IconButton(
+                  onPressed: () =>{ Get.back(), cartController.clearCart()},
+                  icon: const Icon(Iconsax.arrow_left))
+              : leadingIcon != null
+                  ? IconButton(
+                      onPressed: leadingOnPressed, icon: Icon(leadingIcon))
+                  : null,
+          title: title,
+          actions: actions,
+        ),
       ),
     );
   }

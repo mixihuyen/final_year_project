@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../../../../common/styles/shadows.dart';
 import '../../../../../common/widgets/icons/t_ticket_icon.dart';
@@ -40,14 +39,12 @@ class TCartItems extends StatelessWidget {
           ),
         );
       }
-
       return Column(
         children: cartController.cartItems.map((cartItem) {
           CategoryModel? category = categoryController.allCategories.firstWhereOrNull(
                   (cat) => cat.id == cartItem.category,);
           return Container(
-            width: 362,
-            margin: const EdgeInsets.only(bottom: TSizes.defaultSpace),
+            width: 390,
             padding: const EdgeInsets.all(TSizes.defaultSpace),
             decoration: BoxDecoration(
               color: dark ? TColors.textPrimary : TColors.white,
@@ -95,14 +92,13 @@ class TCartItems extends StatelessWidget {
                     ),
                   ],
                 ),
-
+                const SizedBox(height: TSizes.spaceBtwItems),
                 /// -- Category
                 Row(
                   children: [
-                    const Padding(padding: EdgeInsets.only(top: 40)),
                     Text(
                       'Category: ',
-                      style: Theme.of(context).textTheme.labelMedium,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                     Text(
                       category?.name ?? 'Unknown Category',
@@ -150,6 +146,7 @@ class TCartItems extends StatelessWidget {
           );
         }).toList(),
       );
-    });
+    }
+    );
   }
 }

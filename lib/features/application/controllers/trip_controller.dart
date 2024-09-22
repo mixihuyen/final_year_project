@@ -1,7 +1,7 @@
 import 'package:final_year_project/features/application/models/trip_model.dart';
 import 'package:get/get.dart';
 
-import '../../../data/repositories/tips/trip_repository.dart';
+import '../../../data/repositories/trips/trip_repository.dart';
 import '../../../utils/popups/loaders.dart';
 
 class TripController extends GetxController {

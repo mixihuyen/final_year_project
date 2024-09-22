@@ -18,9 +18,9 @@ class ChangeName  extends StatelessWidget {
     final controller = Get.put(UpdateNameController());
     return Scaffold(
       appBar: TAppBar(
-        showBackArrow: true,
         title: Text('Change Name', style: Theme.of(context).textTheme.headlineSmall),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace ),
         child: Column(

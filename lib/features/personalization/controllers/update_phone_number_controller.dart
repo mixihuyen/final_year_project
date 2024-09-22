@@ -53,10 +53,9 @@ class UpdatePhoneNumberController extends GetxController{
 
       //Remove Loader
       TFullScreenLoader.stopLoading();
-
+      Get.back();
       TLoaders.successSnackBar(title: 'Congratulation', message: 'Your Phone Number has been update');
 
-      Get.off(() => const SettingsScreen());
 
     } catch (e) {
       TFullScreenLoader.stopLoading();

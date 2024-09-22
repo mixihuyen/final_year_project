@@ -17,6 +17,7 @@ class TImages{
   static const String successfulPayment = "assets/images/animations/PaymentDone.json";
   static const String animation = "assets/images/animations/Loading.json";
   static const String successfullyRegisterAnimation = "assets/images/animations/SuccessfullyDone.json";
+  static const String bee = "assets/images/animations/bee.json";
 
   // -- Banner Images
   static const String banner1 = "assets/images/banners/banner1.png";

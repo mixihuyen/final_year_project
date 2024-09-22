@@ -35,7 +35,8 @@ class CartController extends GetxController {
   void addItemToCart(TripModel trip) {
      final selectedCartItem = convertToCartItem(trip, quantityTicket.value);
      cartItems.add(selectedCartItem);
-     updateCart();
+     _updateTotalCartPrice();
+     cartItems.refresh();
      Get.to(() => CartScreen(trip: trip));
   }
 
@@ -61,16 +62,12 @@ class CartController extends GetxController {
   void updateQuantity(CartItemModel cartItem, int change) {
     int newQuantity = cartItem.quantity + change;
     if (newQuantity <= 0) {
-      cartItems.remove(cartItem);
-      Get.back();// Xoá mục khỏi giỏ nếu số lượng <= 0
+      cartItems.remove(cartItem);  // Xoá mục nếu số lượng <= 0
+      Get.back();
     } else {
       cartItem.quantity = newQuantity;
-      cartItems.refresh(); // Cập nhật lại giỏ hàng
     }
-  }
-
-  void  updateCart() {
-    _updateTotalCartPrice();
+    _updateTotalCartPrice();  // Cập nhật tổng tiền sau khi thay đổi số lượng
     cartItems.refresh();
   }
   void datePick(BuildContext context, CartItemModel cartItem) async {

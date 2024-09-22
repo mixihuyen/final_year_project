@@ -78,6 +78,17 @@ class UserController extends GetxController {
       user(UserModel.empty());
     }
   }
+  Map<String, dynamic> getUserFullNameAndPhoneNumber() {
+    final userModel = user.value;
+
+    // Kết hợp tên thành chuỗi đầy đủ
+    String fullName = '${userModel.firstName} ${userModel.lastName}';
+
+    return {
+      'fullName': fullName,
+      'phoneNumber': userModel.phoneNumber,
+    };
+  }
 
   void deleteAccountWarningPopup() {
     Get.defaultDialog(
@@ -95,7 +106,7 @@ class UserController extends GetxController {
       TFullScreenLoader.openLoadingDialog('Processing...', TImages.animation);
       // First re-authenticate user
       final auth = AuthenticationRepository.instance;
-      final provider = auth.authUser!.providerData.map((e) => e.providerId).first;
+      final provider = auth.authUser.providerData.map((e) => e.providerId).first;
       if (provider.isNotEmpty) {
         // Re Verify Auth Email
         if (provider == 'google.com') {
