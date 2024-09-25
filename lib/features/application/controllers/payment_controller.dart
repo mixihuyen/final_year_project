@@ -15,7 +15,7 @@ class PaymentController extends GetxController {
   final Rx<PaymentMethodModel> selectedPaymentMethod = PaymentMethodModel.empty().obs;
   @override
   void onInit() {
-    selectedPaymentMethod.value = PaymentMethodModel(name: 'Paypal', image: TImages.paypal);
+    selectedPaymentMethod.value = PaymentMethodModel(name: 'Stripe', image: TImages.stripe);
     super.onInit();
   }
 
@@ -30,11 +30,7 @@ class PaymentController extends GetxController {
               children: [
                 const TSectionHeading(title: 'Select Payment Method', showActionButton: false),
                 const SizedBox(height: TSizes.spaceBtwSections),
-                TPaymentTile(paymentMethod: PaymentMethodModel(name: 'Paypal', image: TImages.paypal)),
-                const SizedBox(height: TSizes.spaceBtwItems/2),
-                TPaymentTile(paymentMethod: PaymentMethodModel(name: 'ZaloPay', image: TImages.zaloPay)),
-                const SizedBox(height: TSizes.spaceBtwItems/2),
-                TPaymentTile(paymentMethod: PaymentMethodModel(name: 'Visa', image: TImages.visa)),
+                TPaymentTile(paymentMethod: PaymentMethodModel(name: 'Stripe', image: TImages.stripe)),
                 const SizedBox(height: TSizes.spaceBtwItems/2),
               ],
             ),

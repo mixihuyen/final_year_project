@@ -182,7 +182,7 @@ class TMyTicketListItem extends StatelessWidget {
                       Text('Total amount: ',
                           style: Theme.of(context).textTheme.titleMedium),
                       TTicketPriceText(
-                        price: TFormatter.format(item.price),
+                        price: TFormatter.format(order.totalAmount),
                       ),
                     ],
                   ),

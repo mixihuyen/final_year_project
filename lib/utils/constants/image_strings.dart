@@ -31,6 +31,7 @@ class TImages{
   static const String paypal = "assets/icons/payment_methods/paypal.png";
   static const String zaloPay = "assets/icons/payment_methods/zaloPay.png";
   static const String visa = "assets/icons/payment_methods/visa.png";
+  static const String stripe = "assets/icons/payment_methods/stripe.png";
 
 
 

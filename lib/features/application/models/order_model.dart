@@ -19,7 +19,7 @@ class OrderModel {
     required this.totalAmount,
     required this.items,
     required this.orderDate,
-    this.paymentMethod = 'Paypal',
+    this.paymentMethod = 'Stripe',
     required this.name,
     required this.phoneNumber,
 });

@@ -51,7 +51,6 @@ class CartController extends GetxController {
   // Xóa một mục khỏi giỏ hàng
   void removeItemFromCart(String tripId) {
     cartItems.removeWhere((item) => item.tripId == tripId);
-    _updateTotalCartPrice();
   }
 
   // Xóa tất cả các mục trong giỏ hàng
@@ -67,7 +66,8 @@ class CartController extends GetxController {
     } else {
       cartItem.quantity = newQuantity;
     }
-    _updateTotalCartPrice();  // Cập nhật tổng tiền sau khi thay đổi số lượng
+    _updateTotalCartPrice();
+    // Cập nhật tổng tiền sau khi thay đổi số lượng
     cartItems.refresh();
   }
   void datePick(BuildContext context, CartItemModel cartItem) async {
