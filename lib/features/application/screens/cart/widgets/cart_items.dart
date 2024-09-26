@@ -5,6 +5,8 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../../../common/styles/shadows.dart';
 import '../../../../../common/widgets/icons/t_ticket_icon.dart';
 import '../../../../../common/widgets/select_date/select_date.dart';
+import '../../../../../common/widgets/select_seat/select_seat24.dart';
+import '../../../../../common/widgets/select_seat/select_seat34.dart';
 import '../../../../../common/widgets/text/ticket_price_text.dart';
 import '../../../../../common/widgets/text/ticket_title_text.dart';
 import '../../../../../common/widgets/tickets/cart/add_remove_button.dart';
@@ -109,38 +111,14 @@ class TCartItems extends StatelessWidget {
 
                 /// -- Date
                 DatePicker(cartItem: cartItem),
-
                 const Divider(),
+                const SizedBox(height: TSizes.spaceBtwItems),
+                /// -- Seats Selector (Kiểm tra category.id để gọi widget khác nhau)
+                if (category?.id == '1')
+                  MultiSeatSelector34(cartItem: cartItem)
+                else if (category?.id == '2')
+                  MultiSeatSelector24(cartItem: cartItem),
 
-                /// -- Price and Quantity
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    /// -- Quantity with add/remove buttons
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            cartController.updateQuantity(cartItem, -1);
-                          },
-                          icon: const Icon(Icons.remove),
-                        ),
-                        Text('${cartItem.quantity}'),
-                        IconButton(
-                          onPressed: () {
-                            cartController.updateQuantity(cartItem, 1);
-                          },
-                          icon: const Icon(Icons.add),
-                        ),
-                      ],
-                    ),
-
-                    /// -- Price
-                    TTicketPriceText(
-                      price: cartItem.getFormattedPrice(),
-                    ),
-                  ],
-                ),
               ],
             ),
           );

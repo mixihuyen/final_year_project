@@ -133,9 +133,9 @@ class TMyTicketListItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('Number of seats:   ',
+                      Text('Seats:   ',
                           style: Theme.of(context).textTheme.bodySmall),
-                      Text('${item.quantity}',
+                      Text(item.selectedSeats.join(', '),
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),

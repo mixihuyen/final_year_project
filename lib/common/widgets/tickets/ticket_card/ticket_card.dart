@@ -62,12 +62,12 @@ class TTicketCard extends StatelessWidget {
 
               /// -- Ticket Details
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// -- Icon
                   const TicketDetailIcons(),
-
+                  const SizedBox(width: TSizes.spaceBtwItems*2),
                   /// -- Details
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,12 +90,6 @@ class TTicketCard extends StatelessWidget {
                           province:
                               trip.end != null ? trip.end!.endProvince : '')
                     ],
-                  ),
-                  Text(
-                    'Seats Available: ${trip.seatsAvailable}',
-                    style: const TextStyle(
-                      color: Colors.green,
-                    ),
                   ),
                 ],
               ),

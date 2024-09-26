@@ -44,7 +44,7 @@ class OrderController extends GetxController {
       // Lấy thông tin người dùng: họ tên và số điện thoại
       final userInfo = userController.getUserFullNameAndPhoneNumber();
       final fullName = userInfo['fullName'];
-      final phoneNumber = userInfo['phoneNumber'];
+      final phoneNumber = userInfo[ 'phoneNumber'];
 
 
       // Tạo đơn hàng mới

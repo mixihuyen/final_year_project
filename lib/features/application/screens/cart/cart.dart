@@ -89,7 +89,7 @@ class CartScreen extends StatelessWidget {
 
                   } else {
                     TLoaders.customToast(
-                      message: 'Total amount must be greater than 0',
+                      message: 'Please choose your seat before checking out.',
                     );
                   }
                 } else {

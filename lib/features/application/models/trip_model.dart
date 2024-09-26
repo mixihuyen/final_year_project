@@ -10,7 +10,6 @@ class TripModel {
   String id;
   double price;
   String? categoryId;
-  int seatsAvailable;
   StartModel? start;
   EndModel? end;
 
@@ -19,7 +18,6 @@ class TripModel {
     required this.id,
     required this.price,
     this.categoryId,
-    required this.seatsAvailable,
     this.start,
     this.end
   });
@@ -31,8 +29,7 @@ class TripModel {
   static TripModel empty() => TripModel(
     id: '',
     price: 0,
-    categoryId: '',
-    seatsAvailable: 0,
+    categoryId: ''
 
   );
 
@@ -41,7 +38,6 @@ class TripModel {
     return {
       'Price': price,
       'CategoryId': categoryId,
-      'SeatsAvailable': seatsAvailable,
       'Start' : start!.toJson(),
       'End' : end!.toJson()
     };
@@ -55,7 +51,6 @@ class TripModel {
       id: document.id,
       price: double.parse((data['Price'] ?? 0).toString()),
       categoryId: data['CategoryId'] ?? '',
-      seatsAvailable: data['SeatsAvailable'] ?? 0,
       start: StartModel.fromJson(data['Start']),
       end: EndModel.fromJson(data['End'])
     );
