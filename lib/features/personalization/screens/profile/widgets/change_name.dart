@@ -18,7 +18,7 @@ class ChangeName  extends StatelessWidget {
     final controller = Get.put(UpdateNameController());
     return Scaffold(
       appBar: TAppBar(
-        title: Text('Change Name', style: Theme.of(context).textTheme.headlineSmall),
+        title: Text('Change Name', style: Theme.of(context).textTheme.headlineSmall), showBackArrow: true
       ),
 
       body: Padding(

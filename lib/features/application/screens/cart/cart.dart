@@ -16,6 +16,8 @@ import '../../../../data/services/stripe_service.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
+import '../../../personalization/controllers/user_controller.dart';
+import '../../controllers/Info_controller.dart';
 import '../../controllers/order_controller.dart';
 import '../../models/cart_item_model.dart';
 import '../../models/payment_method_model.dart';
@@ -25,122 +27,136 @@ class CartScreen extends StatelessWidget {
   const CartScreen({super.key, this.trip, this.cart});
   final TripModel? trip;
   final CartItemModel? cart;
+
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final cartController = Get.put(CartController());
     final orderController = Get.put(OrderController());
-    final payment = Get.put(PaymentController());
+    final paymentController = Get.put(PaymentController());
+    final checkoutInfoController = Get.put(CheckoutInfoController());
+    final userController = Get.put(UserController());
 
-    return Scaffold(
-      appBar: TAppBar(
-        showBackArrow: true,
-          title: Text('Book Tickets',
-              style: Theme.of(context).textTheme.headlineSmall),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(TSizes.defaultSpace),
-          child: Column(
-            children: [
-              const TCartItems(),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              TRoundedContainer(
-                showBorder: true,
-                padding: const EdgeInsets.all(TSizes.md),
-                backgroundColor: dark ? TColors.black : TColors.white,
-                child: const Column(
-                  children: [
-                    TTotalSection(),
-                    Divider(),
-                    TInformationSection(),
-                    Divider(),
-                    TPaymentSection(),
-                  ],
-                ),
+    return FutureBuilder(
+      future: userController.fetchUserRecord(),  // Đảm bảo fetch lại dữ liệu trước khi hiển thị
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Error loading user data'));
+        } else {
+          // Sau khi có dữ liệu người dùng, khởi tạo thông tin tạm thời
+          checkoutInfoController.initializeUserInfo(
+            fullName: userController.user.value.fullName,
+            phoneNumber: userController.user.value.phoneNumber,
+          );
+
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Book Tickets'),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Get.back(),
               ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(TSizes.defaultSpace),
-        child: Obx(
-              () {
-            // Chỉ lắng nghe thay đổi từ totalCartPrice
-            final totalAmount = cartController.totalCartPrice.value;
-            final total = TFormatter.format(totalAmount);
+            ),
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child: Column(
+                children: [
+                  const TCartItems(),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  TRoundedContainer(
+                    showBorder: true,
+                    padding: const EdgeInsets.all(TSizes.md),
+                    backgroundColor: dark ? TColors.black : TColors.white,
+                    child: const Column(
+                      children: [
+                        TTotalSection(),
+                        Divider(),
+                        TInformationSection(),
+                        TPaymentSection(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child: Obx(() {
+                final totalAmount = cartController.totalCartPrice.value;
+                final total = TFormatter.format(totalAmount);
 
-            return ElevatedButton(
-              onPressed: () async {
-                if (_checkCartItemsDates(cartController.cartItems)) {
-                  if (totalAmount > 0) {
-                    // Xử lý thanh toán trước
-                    bool paymentSuccess = await _processPayment(payment.selectedPaymentMethod.value, totalAmount);
+                return ElevatedButton(
+                  onPressed: () async {
+                    if (_checkCartItemsDates(cartController.cartItems)) {
+                      if (totalAmount > 0) {
+                        if (checkoutInfoController.validateFields()) {
+                          final name = checkoutInfoController.nameController.text;
+                          final phone = checkoutInfoController.phoneController.text;
 
-                    if (paymentSuccess) {
-                      // Chỉ xử lý đơn hàng và điều hướng nếu thanh toán thành công
-                      orderController.processOrder(totalAmount);
+                          print('Proceeding to checkout with Name: $name, Phone: $phone');
+
+                          bool paymentSuccess = await _processPayment(
+                            paymentController.selectedPaymentMethod.value,
+                            totalAmount,
+                          );
+
+                          if (paymentSuccess) {
+                            orderController.processOrder(totalAmount, name: name, phone: phone);
+                          } else {
+                            TLoaders.customToast(message: 'Payment was canceled or failed');
+                          }
+                        } else {
+                          TLoaders.customToast(message: 'Please enter your name and phone number.');
+                        }
+                      } else {
+                        TLoaders.customToast(message: 'Please choose your seat before checking out.');
+                      }
                     } else {
-                      TLoaders.customToast(
-                        message: 'Payment was canceled or failed',
-                      );
+                      TLoaders.customToast(message: 'Please select a date for all items before checking out');
                     }
-
-                  } else {
-                    TLoaders.customToast(
-                      message: 'Please choose your seat before checking out.',
-                    );
-                  }
-                } else {
-                  TLoaders.customToast(
-                    message: 'Please select a date for all items before checking out',
-                  );
-                }
-              },
-
-
-              child: Text('Check out $total'),
-            );
-              },
-        ),
-      ),
+                  },
+                  child: Text('Check out $total'),
+                );
+              }),
+            ),
+          );
+        }
+      },
     );
   }
-}
-Future<bool> _processPayment(PaymentMethodModel paymentMethod, double totalAmount) async {
-  if (paymentMethod.name == 'Stripe') {
-    return await _processStripePayment(totalAmount);
-  } else {
-    TLoaders.customToast(message: 'Please select a valid payment method');
-    return false;
-  }
-}
 
-Future<bool> _processStripePayment(double totalAmount) async {
-  try {
-    print('Processing Stripe payment with amount: $totalAmount');
-    await StripeService.instance.makePayment(totalAmount);  // Thực hiện thanh toán với Stripe
-    return true; // Thanh toán thành công
-  } catch (e) {
-    // Nếu có lỗi hoặc bị hủy, in lỗi ra và trả về false
-    print('Stripe payment failed or canceled: $e');
-    return false; // Thanh toán thất bại hoặc bị hủy
-  }
-}
-
-
-bool _checkCartItemsDates(List<CartItemModel> cartItems) {
-  for (var item in cartItems) {
-    if (item.date == null) {
-      // Nếu có bất kỳ mục nào chưa chọn ngày, trả về false
+  Future<bool> _processPayment(PaymentMethodModel paymentMethod, double totalAmount) async {
+    if (paymentMethod.name == 'Stripe') {
+      return await _processStripePayment(totalAmount);
+    } else {
+      TLoaders.customToast(message: 'Please select a valid payment method');
       return false;
     }
   }
-  // Nếu tất cả các mục đều đã chọn ngày, trả về true
-  return true;
 
+  Future<bool> _processStripePayment(double totalAmount) async {
+    try {
+      print('Processing Stripe payment with amount: $totalAmount');
+      await StripeService.instance.makePayment(totalAmount);
+      return true;
+    } catch (e) {
+      print('Stripe payment failed or canceled: $e');
+      return false;
+    }
+  }
+
+  bool _checkCartItemsDates(List<CartItemModel> cartItems) {
+    for (var item in cartItems) {
+      if (item.date == null) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
+
 
 
 

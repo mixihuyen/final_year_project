@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = UserController.instance;
+    final controller = Get.put(UserController());
     return Scaffold(
       appBar: TAppBar(
           showBackArrow: true,
@@ -41,7 +41,8 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Obx(() {
                       final networkImage = controller.user.value.profilePicture;
-                      final image = networkImage.isNotEmpty ? networkImage : TImages.user;
+                      final image =
+                          networkImage.isNotEmpty ? networkImage : TImages.user;
                       return controller.imageLoading.value
                           ? const TShimmerEffect(
                               width: 100, height: 100, radius: 100)
@@ -49,8 +50,7 @@ class ProfileScreen extends StatelessWidget {
                               image: image,
                               width: 100,
                               height: 100,
-                              isNetworkImage: networkImage.isNotEmpty
-                      );
+                              isNetworkImage: networkImage.isNotEmpty);
                     }),
                     TextButton(
                         onPressed: () => controller.uploadUserProfilePicture(),
@@ -67,11 +67,15 @@ class ProfileScreen extends StatelessWidget {
               const TSectionHeading(
                   title: 'Account Information', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
-              TProfileMenu(
+              Obx(() {
+                return TProfileMenu(
                   title: 'Name',
                   icon: Iconsax.arrow_right_34,
-                  value: controller.user.value.fullName,
-                  onPressed: () => Get.to(() => const ChangeName())),
+                  value:
+                      '${controller.user.value.firstName} ${controller.user.value.lastName}',
+                  onPressed: () => Get.to(() => const ChangeName()),
+                );
+              }),
               const SizedBox(height: TSizes.spaceBtwItems),
               TProfileMenu(
                   title: 'Username', value: controller.user.value.username),
@@ -86,11 +90,13 @@ class ProfileScreen extends StatelessWidget {
 
               TProfileMenu(title: 'E-mail', value: controller.user.value.email),
               const SizedBox(height: TSizes.spaceBtwItems),
-              TProfileMenu(
-                  title: 'Phone',
-                  icon: Iconsax.arrow_right_34,
-                  value: controller.user.value.phoneNumber,
-                  onPressed: () => Get.to(() => const ChangePhoneNumber())),
+              Obx(() {
+                return TProfileMenu(
+                    title: 'Phone',
+                    icon: Iconsax.arrow_right_34,
+                    value: controller.user.value.phoneNumber,
+                    onPressed: () => Get.to(() => const ChangePhoneNumber()));
+              }),
               const SizedBox(height: TSizes.spaceBtwItems),
               TProfileMenu(
                   title: 'Gender',

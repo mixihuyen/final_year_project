@@ -20,7 +20,6 @@ class OrderController extends GetxController {
   static OrderController get instance => Get.find();
 
   final paymentController = Get.put(PaymentController());
-  final userController =  Get.put(UserController());
   final cartController = Get.put(CartController());
   final orderRepository = Get.put(OrderRepository());
 
@@ -34,17 +33,12 @@ class OrderController extends GetxController {
     }
   }
 
-  void processOrder(double totalAmount) async {
+  void processOrder(double totalAmount,{required String name, required String phone}) async {
     try {
       TFullScreenLoader.openLoadingDialog('Processing your order', TImages.animation);
 
       final userId = AuthenticationRepository.instance.authUser.uid;
       if (userId.isEmpty) return;
-
-      // Lấy thông tin người dùng: họ tên và số điện thoại
-      final userInfo = userController.getUserFullNameAndPhoneNumber();
-      final fullName = userInfo['fullName'];
-      final phoneNumber = userInfo[ 'phoneNumber'];
 
 
       // Tạo đơn hàng mới
@@ -54,8 +48,8 @@ class OrderController extends GetxController {
         totalAmount: totalAmount,
         orderDate: DateTime.now(),
         paymentMethod: paymentController.selectedPaymentMethod.value.name,
-        name: fullName,
-        phoneNumber: phoneNumber,
+        name: name,
+        phoneNumber: phone,
         items: cartController.cartItems.toList(),
       );
 

@@ -50,14 +50,15 @@ class UpdateNameController extends GetxController{
       Map<String,dynamic> name = {'FirstName': firstName.text.trim(), 'LastName' : lastName.text.trim()};
       await userRepository.updateSingleField(name);
 
-      //Update the Rx User value
-      userController.user.value.firstName = firstName.text.trim();
-      userController.user.value.lastName = lastName.text.trim();
+      userController.user.update((user) {
+        user?.firstName = firstName.text.trim();
+        user?.lastName = lastName.text.trim();
+      });
 
       //Remove Loader
       TFullScreenLoader.stopLoading();
-      Get.back();
 
+      Get.back();
       TLoaders.successSnackBar(title: 'Congratulation', message: 'Your Name has been update');
 
 

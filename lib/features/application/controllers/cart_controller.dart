@@ -33,6 +33,7 @@ class CartController extends GetxController {
 
   // Thêm mục vào giỏ hàng
   void addItemToCart(TripModel trip) {
+    clearCart();
     final selectedCartItem = convertToCartItem(trip, quantityTicket.value);
     cartItems.add(selectedCartItem);
     _updateTotalCartPrice();

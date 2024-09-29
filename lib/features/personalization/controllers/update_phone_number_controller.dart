@@ -47,8 +47,9 @@ class UpdatePhoneNumberController extends GetxController{
       Map<String,dynamic> name = {'PhoneNumber' : phoneNumber.text.trim()};
       await userRepository.updateSingleField(name);
 
-      //Update the Rx User value
-      userController.user.value.phoneNumber = phoneNumber.text.trim();
+      userController.user.update((user) {
+        user?.phoneNumber = phoneNumber.text.trim();
+      });
 
 
       //Remove Loader
