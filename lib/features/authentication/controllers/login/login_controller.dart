@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/helpers/network_manager.dart';
 import '../../../../utils/popups/loaders.dart';
 import '../signup/signup_controller.dart';
 

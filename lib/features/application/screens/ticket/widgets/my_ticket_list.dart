@@ -21,6 +21,7 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../../../utils/formatters/forrmatter.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../../../utils/helpers/location_helper.dart';
 import '../../../controllers/category_controller.dart';
 import '../../../models/category_model.dart';
 import '../../cart/widgets/cart_items.dart';
@@ -33,6 +34,7 @@ class TMyTicketListItem extends StatelessWidget {
     final controller = Get.put(OrderController());
     final dark = THelperFunctions.isDarkMode(context);
     final categoryController = Get.put(CategoryController());
+
     return FutureBuilder(
       future: controller.fetchUserOrders(),
       builder: (_, snapshot) {
@@ -51,151 +53,148 @@ class TMyTicketListItem extends StatelessWidget {
             animation: TImages.bee,
           );
         }
+
         final orders = snapshot.data!;
         orders.sort((a, b) => b.orderDate.compareTo(a.orderDate));
+
         return ListView.separated(
           shrinkWrap: true,
           itemCount: orders.length,
-          separatorBuilder: (_, index) =>
-          const SizedBox(height: TSizes.spaceBtwSections),
-          itemBuilder: (_, index)
-          {
+          separatorBuilder: (_, index) => const SizedBox(height: TSizes.spaceBtwSections),
+          itemBuilder: (_, index) {
             final order = orders[index];
             return Column(
-                children: [
-                  for (var item in order.items)
+              children: [
+                for (var item in order.items)
+                // Sử dụng đúng biến item trong vòng lặp
+                  Builder(
+                    builder: (context) {
+                      // Lấy tên các địa điểm và tỉnh
+                      final startLocationName = LocationHelper.getStationName(item.start?.startLocation);
+                      final endLocationName = LocationHelper.getStationName(item.end?.endLocation);
+                      final startProvinceName = LocationHelper.getProvinceName(item.start?.startProvince);
+                      final endProvinceName = LocationHelper.getProvinceName(item.end?.endProvince);
 
-              Container(
-              width: 400,
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
-              decoration: BoxDecoration(
-                color: dark ? TColors.textPrimary : TColors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [TShadowStyle.ticketShadow],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// -- Title
-                  TTicketTitleText(
-                    title:
-                    '${item.start?.startProvince ?? ''} - ${item.end?.endProvince ?? ''}',
+                      return Container(
+                        width: 400,
+                        padding: const EdgeInsets.all(TSizes.defaultSpace),
+                        decoration: BoxDecoration(
+                          color: dark ? TColors.textPrimary : TColors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [TShadowStyle.ticketShadow],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// -- Title
+                            TTicketTitleText(
+                              title: '$startProvinceName - $endProvinceName',
+                            ),
+                            const SizedBox(height: TSizes.spaceBtwItems),
+
+                            /// -- Divider
+                            const Divider(),
+
+                            /// -- Ticket Details
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /// -- Icon
+                                const TicketDetailIcons(),
+                                const SizedBox(width: TSizes.defaultSpace),
+
+                                /// -- Details
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TicketTimeLocation(
+                                      time: item.start?.departureTime ?? '',
+                                      location: startLocationName ?? '',
+                                      province: startProvinceName ?? '',
+                                    ),
+                                    const SizedBox(height: TSizes.spaceBtwItems),
+                                    TicketTimeLocation(
+                                      time: item.end?.arrivalTime ?? '',
+                                      location: endLocationName ?? '',
+                                      province: endProvinceName ?? '',
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: TSizes.spaceBtwItems),
+
+                            /// -- Category
+                            Row(
+                              children: [
+                                Text(
+                                  'Category:   ',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                Text(
+                                  categoryController.allCategories
+                                      .firstWhere((cat) => cat.id == item.category)
+                                      .name,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('Seats:   ', style: Theme.of(context).textTheme.bodySmall),
+                                Text(item.selectedSeats.join(', '), style: Theme.of(context).textTheme.bodyMedium),
+                              ],
+                            ),
+
+                            /// -- Date
+                            Row(children: [
+                              Text('Departure Date:   ', style: Theme.of(context).textTheme.bodySmall),
+                              Text(' ${TFormatter.formatDate(item.date)} ', style: Theme.of(context).textTheme.bodyMedium),
+                            ]),
+                            const Divider(),
+                            Text('Customer Information ', style: Theme.of(context).textTheme.titleSmall),
+                            const SizedBox(height: TSizes.spaceBtwItems / 2),
+                            Row(children: [
+                              Text('Full Name:   ', style: Theme.of(context).textTheme.bodySmall),
+                              Text('${order.name} ', style: Theme.of(context).textTheme.bodyMedium),
+                            ]),
+                            Row(children: [
+                              Text('Phone Number:   ', style: Theme.of(context).textTheme.bodySmall),
+                              Text('${order.phoneNumber} ', style: Theme.of(context).textTheme.bodyMedium),
+                            ]),
+
+                            const Divider(),
+                            Row(children: [
+                              Text('Payment Method:   ', style: Theme.of(context).textTheme.bodySmall),
+                              Text('${order.paymentMethod} ', style: Theme.of(context).textTheme.bodyMedium),
+                            ]),
+                            Row(children: [
+                              Text('Order Date:   ', style: Theme.of(context).textTheme.bodySmall),
+                              Text(TFormatter.formatDate(order.orderDate), style: Theme.of(context).textTheme.bodyMedium),
+                            ]),
+                            const Divider(),
+
+                            /// -- Price
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Total amount: ', style: Theme.of(context).textTheme.titleMedium),
+                                TTicketPriceText(
+                                  price: TFormatter.format(order.totalAmount),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
-
-                  /// -- Divider
-                  const Divider(),
-
-                  /// -- Ticket Details
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// -- Icon
-                      const TicketDetailIcons(),
-                      const SizedBox(width: TSizes.defaultSpace),
-
-                      /// -- Details
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TicketTimeLocation(
-                            time: item.start?.departureTime ?? '',
-                            location: item.start?.startLocation ?? '',
-                            province: item.start?.startProvince ?? '',
-                          ),
-                          const SizedBox(height: TSizes.spaceBtwItems),
-                          TicketTimeLocation(
-                            time: item.end?.arrivalTime ?? '',
-                            location: item.end?.endLocation ?? '',
-                            province: item.end?.endProvince ?? '',
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
-
-                  /// -- Category
-                  Row(
-                    children: [
-                      Text(
-                        'Category:   ',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      Text(
-                        categoryController.allCategories.firstWhere(
-                                (cat) => cat.id == item.category
-                        ).name,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text('Seats:   ',
-                          style: Theme.of(context).textTheme.bodySmall),
-                      Text(item.selectedSeats.join(', '),
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    ],
-                  ),
-
-                  /// -- Date
-                  Row(children: [
-                    Text('Departure Date:   ', style: Theme.of(context).textTheme.bodySmall),
-                    Text(' ${TFormatter.formatDate(item.date)} ', style: Theme.of(context).textTheme.bodyMedium),
-
-                  ]),
-                  const Divider(),
-                  Text('Customer Information ',
-                      style: Theme.of(context).textTheme.titleSmall),
-                  const SizedBox(height: TSizes.spaceBtwItems/2),
-                  Row(
-                      children:[
-
-                        Text('Full Name:   ', style: Theme.of(context).textTheme.bodySmall),
-                        Text('${order.name} ', style: Theme.of(context).textTheme.bodyMedium),
-                      ]),
-                  Row(
-                      children:[
-                        Text('Phone Number:   ', style: Theme.of(context).textTheme.bodySmall),
-                        Text('${order.phoneNumber} ', style: Theme.of(context).textTheme.bodyMedium),
-                      ]),
-
-                  const Divider(),
-                  Row(
-                      children:[
-                        Text('Payment Method:   ', style: Theme.of(context).textTheme.bodySmall),
-                        Text('${order.paymentMethod} ', style: Theme.of(context).textTheme.bodyMedium),
-                  ]),
-                  Row(
-                      children:[
-                        Text('Order Date:   ', style: Theme.of(context).textTheme.bodySmall),
-                        Text(TFormatter.formatDate(order.orderDate), style: Theme.of(context).textTheme.bodyMedium),
-                      ]),
-                  const Divider(),
-
-                  /// -- Price
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Total amount: ',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      TTicketPriceText(
-                        price: TFormatter.format(order.totalAmount),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-                ],
-              );
-          }
+              ],
+            );
+          },
         );
       },
-
     );
   }
 }

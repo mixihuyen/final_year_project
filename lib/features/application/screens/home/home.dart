@@ -1,5 +1,5 @@
 
-import 'package:final_year_project/features/application/screens/home/widgets/booking_form.dart';
+import 'package:final_year_project/features/application/screens/home/widgets/search_trip.dart';
 import 'package:final_year_project/features/application/screens/home/widgets/home_appbar.dart';
 import 'package:final_year_project/features/application/screens/home/widgets/popular_trips.dart';
 import 'package:final_year_project/features/application/screens/home/widgets/promo_slider.dart';
@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             ),
 
             /// -- Search Bar
-            const BookingForm(),
+            // const SearchTrip(),
 
             /// -- Banner
             const TPromoSlider(),

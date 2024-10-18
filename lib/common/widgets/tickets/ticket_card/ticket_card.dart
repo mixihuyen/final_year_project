@@ -14,6 +14,7 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
+import '../../../../utils/helpers/location_helper.dart';
 import '../../icons/t_ticket_icon.dart';
 import '../../text/ticket_price_text.dart';
 import '../ticket_location/ticket_location.dart';
@@ -27,11 +28,19 @@ class TTicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final categoryController = Get.put(CategoryController());
+    final tripController = Get.put(TripController());
+
     return Obx(() {
-      CategoryModel? category =
-          categoryController.allCategories.firstWhereOrNull(
-        (category) => category.id == trip.categoryId,
+      // Lấy category name bằng cách tìm trong danh sách categories đã fetch
+      CategoryModel? category = categoryController.allCategories.firstWhereOrNull(
+            (category) => category.id == trip.categoryId,
       );
+
+      // Lấy tên startLocation, endLocation, startProvince và endProvince
+      final startLocationName = LocationHelper.getStationName(trip.start?.startLocation);
+      final endLocationName = LocationHelper.getStationName(trip.end?.endLocation);
+      final startProvinceName = LocationHelper.getProvinceName(trip.start?.startProvince);
+      final endProvinceName = LocationHelper.getProvinceName(trip.end?.endProvince);
 
       return GestureDetector(
         onTap: () {},
@@ -52,9 +61,7 @@ class TTicketCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// -- Title
-              TTicketTitleText(
-                  title:
-                      '${trip.start != null ? trip.start!.startProvince : ''} - ${trip.end != null ? trip.end!.endProvince : ''}'),
+              TTicketTitleText(title: '$startProvinceName - $endProvinceName'),
               const SizedBox(height: TSizes.spaceBtwItems),
 
               /// -- Divider
@@ -62,33 +69,29 @@ class TTicketCard extends StatelessWidget {
 
               /// -- Ticket Details
               Row(
-
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// -- Icon
                   const TicketDetailIcons(),
-                  const SizedBox(width: TSizes.spaceBtwItems*2),
+                  const SizedBox(width: TSizes.spaceBtwItems * 2),
+
                   /// -- Details
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TicketTimeLocation(
-                          time: trip.start != null
-                              ? trip.start!.departureTime
-                              : '',
-                          location: trip.start != null
-                              ? trip.start!.startLocation
-                              : '',
-                          province: trip.start != null
-                              ? trip.start!.startProvince
-                              : ''),
+                        time: trip.start != null
+                            ? trip.start!.departureTime
+                            : '',
+                        location: startLocationName ?? '',
+                        province: startProvinceName ?? '',
+                      ),
                       const SizedBox(height: TSizes.spaceBtwItems),
                       TicketTimeLocation(
-                          time: trip.end != null ? trip.end!.arrivalTime : '',
-                          location:
-                              trip.end != null ? trip.end!.endLocation : '',
-                          province:
-                              trip.end != null ? trip.end!.endProvince : '')
+                        time: trip.end != null ? trip.end!.arrivalTime : '',
+                        location: endLocationName ?? '',
+                        province: endProvinceName ?? '',
+                      )
                     ],
                   ),
                 ],
@@ -115,7 +118,27 @@ class TTicketCard extends StatelessWidget {
       );
     });
   }
+
+  String _getStationName(String? stationId) {
+    final tripController = Get.find<TripController>();
+    final station = tripController.stations.firstWhereOrNull(
+          (station) => station.id == stationId,
+    );
+    return station?.name ?? 'Unknown Station';
+  }
+
+
+  // Lấy tên province từ TripController
+  String _getProvinceName(String? provinceId) {
+    final tripController = Get.find<TripController>();
+    final province = tripController.provinces.firstWhereOrNull(
+          (province) => province.id == provinceId,
+    );
+    return province?.name ?? 'Unknown Province';
+  }
 }
+
+
 
 class BookButton extends StatelessWidget {
   const BookButton({
@@ -124,6 +147,7 @@ class BookButton extends StatelessWidget {
   });
 
   final TripModel trip;
+
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());

@@ -13,8 +13,20 @@ class CategoryModel {
   // Convert model to Json structure so that you can store data in Firebase
   Map<String, dynamic> toJson() {
     return{
-      'Name' : name,
+      'name' : name,
     };
+  }
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
+  factory CategoryModel.fromMap(Map<String, dynamic> map, String documentId) {
+    return CategoryModel(
+      id: documentId,
+      name: map['name'] ?? '',
+    );
   }
 
   // Map Json oriented document snapshot from Firebase to UserModel
@@ -23,7 +35,7 @@ class CategoryModel {
       final data = document.data()!;
       return CategoryModel(
         id: document.id,
-        name: data['Name'] ?? '',
+        name: data['name'] ?? '',
       );
     } else {
       return CategoryModel.empty();

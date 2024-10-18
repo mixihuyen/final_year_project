@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
+import '../../../utils/helpers/network_manager.dart';
 import '../../../utils/popups/fulll_screen_loader.dart';
 import '../../authentication/controllers/signup/signup_controller.dart';
 import '../../authentication/model/user_model.dart';

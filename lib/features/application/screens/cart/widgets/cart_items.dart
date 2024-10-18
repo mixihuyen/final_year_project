@@ -15,6 +15,7 @@ import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../../../utils/helpers/location_helper.dart';
 import '../../../controllers/cart_controller.dart';
 import '../../../controllers/category_controller.dart';
 import '../../../models/cart_item_model.dart';
@@ -44,7 +45,11 @@ class TCartItems extends StatelessWidget {
       return Column(
         children: cartController.cartItems.map((cartItem) {
           CategoryModel? category = categoryController.allCategories.firstWhereOrNull(
-                  (cat) => cat.id == cartItem.category,);
+                  (cat) => cat.id == cartItem.category);
+          final startLocationName = LocationHelper.getStationName(cartItem.start?.startLocation);
+          final endLocationName = LocationHelper.getStationName(cartItem.end?.endLocation);
+          final startProvinceName = LocationHelper.getProvinceName(cartItem.start?.startProvince);
+          final endProvinceName = LocationHelper.getProvinceName(cartItem.end?.endProvince);
           return Container(
             width: 390,
             padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -60,7 +65,7 @@ class TCartItems extends StatelessWidget {
                 /// -- Title
                 TTicketTitleText(
                   title:
-                  '${cartItem.start?.startProvince ?? ''} - ${cartItem.end?.endProvince ?? ''}',
+                  '$startProvinceName - $endProvinceName',
                 ),
                 const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -81,14 +86,14 @@ class TCartItems extends StatelessWidget {
                       children: [
                         TicketTimeLocation(
                           time: cartItem.start?.departureTime ?? '',
-                          location: cartItem.start?.startLocation ?? '',
-                          province: cartItem.start?.startProvince ?? '',
+                          location: startLocationName ?? '',
+                          province: startProvinceName ?? '',
                         ),
                         const SizedBox(height: TSizes.spaceBtwItems),
                         TicketTimeLocation(
                           time: cartItem.end?.arrivalTime ?? '',
-                          location: cartItem.end?.endLocation ?? '',
-                          province: cartItem.end?.endProvince ?? '',
+                          location: endLocationName ?? '',
+                          province: endProvinceName ?? '',
                         ),
                       ],
                     ),
@@ -114,9 +119,9 @@ class TCartItems extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: TSizes.spaceBtwItems),
                 /// -- Seats Selector (Kiểm tra category.id để gọi widget khác nhau)
-                if (category?.id == '1')
+                if (category?.name == '34-room VIP')
                   MultiSeatSelector34(cartItem: cartItem)
-                else if (category?.id == '2')
+                else if (category?.name == '24-room VIP')
                   MultiSeatSelector24(cartItem: cartItem),
 
               ],

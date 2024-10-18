@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../../data/repositories/user/user_repository.dart';
 import '../../../utils/constants/image_strings.dart';
+import '../../../utils/helpers/network_manager.dart';
 import '../../../utils/popups/fulll_screen_loader.dart';
 import '../../../utils/popups/loaders.dart';
 import '../../authentication/controllers/signup/signup_controller.dart';
