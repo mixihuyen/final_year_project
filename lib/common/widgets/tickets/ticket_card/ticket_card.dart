@@ -118,24 +118,6 @@ class TTicketCard extends StatelessWidget {
       );
     });
   }
-
-  String _getStationName(String? stationId) {
-    final tripController = Get.find<TripController>();
-    final station = tripController.stations.firstWhereOrNull(
-          (station) => station.id == stationId,
-    );
-    return station?.name ?? 'Unknown Station';
-  }
-
-
-  // Lấy tên province từ TripController
-  String _getProvinceName(String? provinceId) {
-    final tripController = Get.find<TripController>();
-    final province = tripController.provinces.firstWhereOrNull(
-          (province) => province.id == provinceId,
-    );
-    return province?.name ?? 'Unknown Province';
-  }
 }
 
 

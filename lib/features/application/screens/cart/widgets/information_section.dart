@@ -1,25 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:iconsax/iconsax.dart';
-
-import '../../../../../common/widgets/section_heading.dart';
-import '../../../../../utils/constants/sizes.dart';
-import '../../../../../utils/validators/validation.dart';
-import '../../../../personalization/controllers/user_controller.dart';
-import '../../../../personalization/screens/profile/widgets/change_name.dart';
-import '../../../../personalization/screens/profile/widgets/change_phoneNumber.dart';
-import '../../../../personalization/screens/profile/widgets/profile_menu.dart';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Required for input formatters
 import 'package:get/get.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../controllers/Info_controller.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/validators/validation.dart';
 
 class TInformationSection extends StatelessWidget {
   const TInformationSection({super.key});
@@ -31,50 +16,56 @@ class TInformationSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Personal Information Label
         Text('Personal Information', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: TSizes.spaceBtwItems / 2),
 
+        // Full Name Label and TextField
         Text('Full name', style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: TSizes.spaceBtwItems/4),
-        // TextField cho Họ và Tên
+        const SizedBox(height: TSizes.spaceBtwItems / 4),
         TextField(
           controller: checkoutInfoController.nameController,
-          style:  Theme.of(context).textTheme.bodyMedium,
-          decoration: const InputDecoration(
-            border: UnderlineInputBorder(), // Gạch chân dưới
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey), // Màu gạch chân
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue), // Màu gạch chân khi focus
-            ),
-
-          ),
-        ),
-        const SizedBox(height: TSizes.spaceBtwItems/2),
-
-        // Label cho Số điện thoại
-        Text('Phone number', style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: TSizes.spaceBtwItems/4),
-        TextFormField(
-          controller: checkoutInfoController.phoneController,
-          validator: TValidator.validatePhoneNumber,
-          keyboardType: TextInputType.phone,
           style: Theme.of(context).textTheme.bodyMedium,
           decoration: const InputDecoration(
-            border: UnderlineInputBorder(), // Gạch chân dưới
+            border: UnderlineInputBorder(),
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey), // Màu gạch chân
+              borderSide: BorderSide(color: Colors.grey),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue), // Màu gạch chân khi focus
+              borderSide: BorderSide(color: Colors.blue),
             ),
           ),
         ),
+        const SizedBox(height: TSizes.spaceBtwItems / 2),
+
+        // Phone Number Label and TextFormField
+        Text('Phone number', style: Theme.of(context).textTheme.bodySmall),
+        const SizedBox(height: TSizes.spaceBtwItems / 4),
+
+        TextFormField(
+          controller: checkoutInfoController.phoneController,
+          validator: (value) {
+            return TValidator.validatePhoneNumber(value);
+          },
+          keyboardType: TextInputType.phone,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly, // Restrict input to numbers only
+          ],
+          style: Theme.of(context).textTheme.bodyMedium,
+          decoration: const InputDecoration(
+            border: UnderlineInputBorder(),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            hintText: 'Enter your phone number', // Optional: Placeholder text
+          ),
+        ),
+
         const SizedBox(height: TSizes.spaceBtwSections),
       ],
     );
   }
 }
-
-

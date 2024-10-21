@@ -16,6 +16,7 @@ import '../../../../data/services/stripe_service.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
+import '../../../../utils/validators/validation.dart';
 import '../../../personalization/controllers/user_controller.dart';
 import '../../controllers/Info_controller.dart';
 import '../../controllers/order_controller.dart';
@@ -94,6 +95,13 @@ class CartScreen extends StatelessWidget {
                         if (checkoutInfoController.validateFields()) {
                           final name = checkoutInfoController.nameController.text;
                           final phone = checkoutInfoController.phoneController.text;
+                          // Kiểm tra số điện thoại
+                          final phoneError = TValidator.validatePhoneNumber(phone);
+                          if (phoneError != null) {
+                            // Nếu số điện thoại không hợp lệ, hiển thị lỗi và dừng tiến trình
+                            TLoaders.customToast(message: phoneError); // Hiển thị thông báo lỗi
+                            return;
+                          }
 
                           print('Proceeding to checkout with Name: $name, Phone: $phone');
 
