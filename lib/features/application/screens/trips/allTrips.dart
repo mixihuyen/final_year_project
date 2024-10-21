@@ -1,6 +1,5 @@
 import 'package:final_year_project/common/widgets/appbar/appbar.dart';
 import 'package:final_year_project/common/widgets/appbar/tabbar.dart';
-import 'package:final_year_project/common/widgets/tickets/ticket_card/ticket_card.dart';
 import 'package:final_year_project/features/application/controllers/category_controller.dart';
 import 'package:final_year_project/features/application/screens/trips/widgets/trip_tab.dart';
 import 'package:final_year_project/utils/constants/colors.dart';
@@ -40,27 +39,27 @@ class AllTrips extends StatelessWidget {
           return DefaultTabController(
             length: categories.length,
             child: NestedScrollView(
-                headerSliverBuilder: (_, innerBoxIsScrolled) {
-                  return [
-                    SliverAppBar(
-                      pinned: true,
-                      floating: true,
-                      expandedHeight: 0,
-                      bottom: TTabbar(
-                          tabs: categories
-                              .map(
-                                  (category) => Tab(child: Text(category.name)))
-                              .toList()),
-                    ),
-                  ];
-                },
-                body: TabBarView(
-                  children: categories
-                      .map((category) => TTripTab(category: category))
-                      .toList(),
-                ),
+              headerSliverBuilder: (_, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    pinned: true,
+                    floating: true,
+                    expandedHeight: 0,
+                    bottom: TTabbar(
+                        tabs: categories
+                            .map(
+                                (category) => Tab(child: Text(category.name)))
+                            .toList()),
+                  ),
+                ];
+              },
+              body: TabBarView(
+                children: categories
+                    .map((category) => TTripTab(category: category))
+                    .toList(),
               ),
-            );
+            ),
+          );
         }));
   }
 }

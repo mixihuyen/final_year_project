@@ -51,38 +51,49 @@ class TripRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
-
-  // Get trips by category
   Future<List<TripModel>> getTripForCategory({required String categoryId}) async {
     try {
-      QuerySnapshot tripCategoryQuery = await _db
+      // Query to get all documents where categoryId matches the provided categoryId
+      QuerySnapshot<Map<String, dynamic>> tripCategoryQuery = await _db
           .collection('TripCategory')
           .where('categoryId', isEqualTo: categoryId)
           .get();
 
-      List<String> tripIds =
-      tripCategoryQuery.docs.map((doc) => doc['tripId'] as String).toList();
+      // Extract tripIds from the documents in TripCategory
+      List<String> tripIds = tripCategoryQuery.docs.map((doc) => doc['tripId'] as String).toList();
 
-      if (tripIds.isEmpty) return [];
+      if (tripIds.isEmpty) {
+        print('No tripIds found for categoryId: $categoryId');
+        return [];
+      }
 
-      final tripsQuery = await _db
+      print('Trip IDs for categoryId $categoryId: $tripIds');
+
+      // Query to get all trips where the tripId is in the list of tripIds
+      QuerySnapshot<Map<String, dynamic>> tripsQuery = await _db
           .collection('Trips')
           .where(FieldPath.documentId, whereIn: tripIds)
-          .limit(2)
           .get();
 
-      List<TripModel> trips =
-      tripsQuery.docs.map((doc) => TripModel.fromSnapshot(doc)).toList();
+      print('Fetched trips for categoryId $categoryId: ${tripsQuery.docs.length}');
+      tripsQuery.docs.forEach((doc) => print(doc.data()));
+
+      // Extract trip models from the query results and filter by categoryId
+      List<TripModel> trips = tripsQuery.docs
+          .map((doc) => TripModel.fromSnapshot(doc))
+          .where((trip) => trip.categoryId == categoryId)  // Lọc theo đúng categoryId
+          .toList();
 
       return trips;
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on PlatformException catch (e) {
-      throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong. Please try again';
+      print('Error fetching trips for category: $e');
+      return [];
     }
   }
+
+
+
+
 
   // Get all stations
   Future<List<StationModel>> getAllStations() async {

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../common/widgets/layouts/grid_layout.dart';
-import '../../../../../common/widgets/tickets/ticket_card/ticket_card.dart';
+import '../../trips/widgets/ticket_card.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../controllers/trip_controller.dart';

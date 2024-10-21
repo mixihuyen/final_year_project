@@ -7,17 +7,17 @@ import 'package:final_year_project/features/application/models/trip_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import '../../../../features/application/controllers/category_controller.dart';
-import '../../../../features/application/models/category_model.dart';
-import '../../../../features/application/screens/cart/cart.dart';
-import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/constants/text_strings.dart';
-import '../../../../utils/helpers/helper_functions.dart';
-import '../../../../utils/helpers/location_helper.dart';
-import '../../icons/t_ticket_icon.dart';
-import '../../text/ticket_price_text.dart';
-import '../ticket_location/ticket_location.dart';
+import '../../../controllers/category_controller.dart';
+import '../../../models/category_model.dart';
+import '../../cart/cart.dart';
+import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../../../utils/helpers/location_helper.dart';
+import '../../../../../common/widgets/icons/t_ticket_icon.dart';
+import '../../../../../common/widgets/text/ticket_price_text.dart';
+import '../../../../../common/widgets/tickets/ticket_location/ticket_location.dart';
 
 class TTicketCard extends StatelessWidget {
   const TTicketCard({super.key, required this.trip});
@@ -31,16 +31,13 @@ class TTicketCard extends StatelessWidget {
     final tripController = Get.put(TripController());
 
     return Obx(() {
-      // Lấy category name bằng cách tìm trong danh sách categories đã fetch
-      CategoryModel? category = categoryController.allCategories.firstWhereOrNull(
-            (category) => category.id == trip.categoryId,
-      );
 
       // Lấy tên startLocation, endLocation, startProvince và endProvince
       final startLocationName = LocationHelper.getStationName(trip.start?.startLocation);
       final endLocationName = LocationHelper.getStationName(trip.end?.endLocation);
       final startProvinceName = LocationHelper.getProvinceName(trip.start?.startProvince);
       final endProvinceName = LocationHelper.getProvinceName(trip.end?.endProvince);
+      final category = LocationHelper.getCategoryName(trip.categoryId);
 
       return GestureDetector(
         onTap: () {},
@@ -102,8 +99,10 @@ class TTicketCard extends StatelessWidget {
 
               /// -- Price and Button
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(category != null ? category.name : 'Unknown Category',
-                    style: Theme.of(context).textTheme.titleMedium),
+                Text(
+              category,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 Column(children: [
                   /// -- Price
                   TTicketPriceText(price: trip.getFormattedPrice()),

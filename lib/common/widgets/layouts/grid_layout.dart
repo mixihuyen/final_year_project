@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../tickets/ticket_card/ticket_card.dart';
+import '../../../features/application/screens/trips/widgets/ticket_card.dart';
 
 class TGridLayout extends StatelessWidget {
   const TGridLayout({

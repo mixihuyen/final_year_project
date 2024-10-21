@@ -13,6 +13,10 @@ class CategoryController extends GetxController {
   final isLoading = false.obs;
   final _categoryRepository = Get.put(CategoryRepository());
   RxList<CategoryModel> allCategories = <CategoryModel>[].obs;
+  final _tripRepository = Get.put(TripRepository());
+  // RxMap to store trips by categoryId
+  RxMap<String, List<TripModel>> allTripsForCategory = <String, List<TripModel>>{}.obs;
+
 
   @override
   void onInit() {
@@ -37,14 +41,25 @@ class CategoryController extends GetxController {
       isLoading.value = false;
     }
   }
+  // Fetch trips for a specific category and return Future
   Future<List<TripModel>> getCategoryTrips({required String categoryId}) async {
-    try{
-      final trips = await TripRepository.instance.getTripForCategory(categoryId: categoryId);
+    try {
+      final trips = await _tripRepository.getTripForCategory(categoryId: categoryId);
       return trips;
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
       return [];
     }
-
   }
+
+  // Future<List<TripModel>> getCategoryTrips({required String categoryId}) async {
+  //   try{
+  //     final trips = await TripRepository.instance.getTripForCategory(categoryId: categoryId);
+  //     return trips;
+  //   } catch (e) {
+  //     TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+  //     return [];
+  //   }
+  // }
+
+
 }

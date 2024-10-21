@@ -74,6 +74,7 @@ class TMyTicketListItem extends StatelessWidget {
                       final endLocationName = LocationHelper.getStationName(item.end?.endLocation);
                       final startProvinceName = LocationHelper.getProvinceName(item.start?.startProvince);
                       final endProvinceName = LocationHelper.getProvinceName(item.end?.endProvince);
+                      final category = LocationHelper.getCategoryName(item.category);
 
                       return Container(
                         width: 400,
@@ -129,14 +130,8 @@ class TMyTicketListItem extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  'Category:   ',
+                                  'Category:   $category',
                                   style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Text(
-                                  categoryController.allCategories
-                                      .firstWhere((cat) => cat.id == item.category)
-                                      .name,
-                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -151,6 +146,10 @@ class TMyTicketListItem extends StatelessWidget {
                             Row(children: [
                               Text('Departure Date:   ', style: Theme.of(context).textTheme.bodySmall),
                               Text(' ${TFormatter.formatDate(item.date)} ', style: Theme.of(context).textTheme.bodyMedium),
+                            ]),
+                            Row(children: [
+                              Text('Price Ticket:   ', style: Theme.of(context).textTheme.bodySmall),
+                              Text(' ${TFormatter.format(item.price)} ', style: Theme.of(context).textTheme.bodyMedium),
                             ]),
                             const Divider(),
                             Text('Customer Information ', style: Theme.of(context).textTheme.titleSmall),
