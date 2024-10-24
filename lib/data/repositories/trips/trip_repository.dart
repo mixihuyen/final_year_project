@@ -93,8 +93,6 @@ class TripRepository extends GetxController {
 
 
 
-
-
   // Get all stations
   Future<List<StationModel>> getAllStations() async {
     try {

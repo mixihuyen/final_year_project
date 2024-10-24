@@ -4,6 +4,8 @@ import 'package:final_year_project/features/application/models/province_model.da
 import 'package:final_year_project/features/application/models/station_model.dart';
 import 'package:get/get.dart';
 import '../../../data/repositories/trips/trip_repository.dart';
+import '../../../utils/formatters/forrmatter.dart';
+import '../../../utils/helpers/location_helper.dart';
 import '../../../utils/popups/loaders.dart';
 
 class TripController extends GetxController {
@@ -16,6 +18,9 @@ class TripController extends GetxController {
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<ProvinceModel> provinces = <ProvinceModel>[].obs;
   RxList<StationModel> stations = <StationModel>[].obs;
+  var trips = <TripModel>[].obs;
+  var filteredTrips = <TripModel>[].obs; // List to store filtered trips
+  var searchQuery = ''.obs; // Search query
 
   final isLoading = false.obs;
   final _tripRepository = Get.put(TripRepository());
@@ -35,6 +40,7 @@ class TripController extends GetxController {
       isLoading.value = true;
       final trips = await _tripRepository.getAllTrips();
       allTrips.assignAll(trips);
+      filteredTrips.assignAll(trips); // Default to show all trips initially
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     } finally {
@@ -69,6 +75,22 @@ class TripController extends GetxController {
       stations.assignAll(fetchedStations);
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+    }
+  }
+
+  // Method to filter trips based on selected start and end stations
+  void filter({String? selectedStartStation, String? selectedEndStation}) {
+    if (selectedStartStation == null && selectedEndStation == null) {
+      filteredTrips.assignAll(allTrips); // No filters, show all trips
+    } else {
+      filteredTrips.value = allTrips.where((trip) {
+        final matchesStart = selectedStartStation == null ||
+            trip.start?.startLocation == selectedStartStation;
+        final matchesEnd = selectedEndStation == null ||
+            trip.end?.endLocation == selectedEndStation;
+
+        return matchesStart && matchesEnd;
+      }).toList();
     }
   }
 }

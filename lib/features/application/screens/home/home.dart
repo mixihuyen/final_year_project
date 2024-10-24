@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             ),
 
             /// -- Search Bar
-            // const SearchTrip(),
+             const SearchTrip(),
 
             /// -- Banner
             const TPromoSlider(),

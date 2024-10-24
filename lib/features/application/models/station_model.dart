@@ -1,24 +1,26 @@
 class StationModel {
   String id;
   String name;
+  String provinceId; // Add provinceId field
 
   StationModel({
     required this.id,
     required this.name,
+    required this.provinceId, // Ensure this is required
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
+      'provinceId': provinceId, // Include provinceId in JSON
     };
   }
 
-  // Create a StationLocation object from Firestore Map
-  factory StationModel.fromMap(Map<String, dynamic> map, String documentId) {
+  factory StationModel.fromMap(Map<String, dynamic> map, String id) {
     return StationModel(
-      id: documentId,
+      id: id,
       name: map['name'] ?? '',
+      provinceId: map['provinceId'] ?? '', // Map the provinceId
     );
   }
 }
