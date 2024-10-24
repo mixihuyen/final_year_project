@@ -98,11 +98,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () => Get.to(() => const ChangePhoneNumber()));
               }),
               const SizedBox(height: TSizes.spaceBtwItems),
-              TProfileMenu(
-                  title: 'Gender',
-                  icon: Iconsax.arrow_right_34,
-                  value: 'Female',
-                  onPressed: () {}),
+
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
               Center(

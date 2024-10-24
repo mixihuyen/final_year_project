@@ -12,7 +12,4 @@ android_11:
   image: assets/logos/light_logo.png
   image_dark: assets/logos/dark_logo.png
 
-
-
-
   web: false

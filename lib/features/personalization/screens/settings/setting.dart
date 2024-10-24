@@ -39,15 +39,21 @@ class SettingsScreen extends StatelessWidget {
                 )),
 
             /// -- Body
-            const Padding(
-              padding: EdgeInsets.all(TSizes.defaultSpace),
+            Padding(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
                 children: [
                   /// -- Account Setting
-                  TSectionHeading(title: 'Account Setting', showActionButton: false,),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  TSettingMenuTile(icon: Iconsax.notification, title: 'Notifications', subTitle: 'Set any kind of notification message'),
-                  TSettingMenuTile(icon: Iconsax.security_card, title: 'Account Privacy', subTitle: 'Manage data usage and connected accounts'),
+                  const TSectionHeading(title: 'Account Setting', showActionButton: false),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  TSettingMenuTile(
+                    icon: Iconsax.security_card,
+                    title: 'Account',
+                    onTap: () {
+                      // Navigate to ProfileScreen when the tile is tapped
+                      Get.to(() => const  ProfileScreen()); // Using GetX for navigation
+                    }, subTitle: 'Personal information management',
+                  ),
                 ],
               ),
             ),
