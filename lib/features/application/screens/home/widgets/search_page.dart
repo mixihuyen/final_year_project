@@ -24,7 +24,6 @@ class SearchPage extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
                   child: _buildTripCards(context),

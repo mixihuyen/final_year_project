@@ -4,14 +4,11 @@ import 'package:final_year_project/features/application/screens/trips/allTrips.d
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../../../../common/widgets/layouts/grid_layout.dart';
 import '../../trips/widgets/ticket_card.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../controllers/trip_controller.dart';
-import '../../../models/trip_model.dart';
 
 class PopularTrips extends StatelessWidget {
   const PopularTrips({super.key});
@@ -20,15 +17,16 @@ class PopularTrips extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(TripController());
     return SingleChildScrollView(
-        padding: const EdgeInsets.all(TSizes.defaultSpace),
-        child: Column(children: [
+      padding: const EdgeInsets.all(TSizes.defaultSpace),
+      child: Column(
+        children: [
           Text(TTexts.popularTrips,
               style: Theme.of(context).textTheme.titleLarge),
           Obx(() {
             if (controller.isLoading.value) {
-              // Nếu đang tải, hiển thị spinner ở trung tâm
+              // If loading, show a centered spinner
               return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5, // Đảm bảo chiều cao đủ lớn để spinner nằm giữa
+                height: MediaQuery.of(context).size.height * 0.5, // Ensure spinner is centered
                 child: const Center(
                   child: CircularProgressIndicator(),
                 ),
@@ -36,14 +34,26 @@ class PopularTrips extends StatelessWidget {
             }
             if (controller.allTrips.isEmpty) {
               return Center(
-                  child: Text("There are no Trips!.",
-                      style: Theme.of(context).textTheme.bodyMedium));
+                child: Text(
+                  "There are no Trips!",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              );
             }
-            return TGridLayout(
-                itemCount: controller.allTrips.length,
-                itemBuilder: (_, index) =>
-                    TTicketCard(trip: controller.allTrips[index]));
+
+            // Replace TGridLayout with ListView.builder
+            return ListView.builder(
+              shrinkWrap: true, // Ensures it only takes up the necessary space
+              physics: const NeverScrollableScrollPhysics(), // Allows parent scrolling
+              itemCount: controller.allTrips.length,
+              itemBuilder: (context, index) {
+                final trip = controller.allTrips[index];
+                return TTicketCard(trip: trip);
+              },
+            );
           }),
-        ]));
+        ],
+      ),
+    );
   }
 }
